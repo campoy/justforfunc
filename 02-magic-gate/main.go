@@ -36,7 +36,8 @@ func init() {
 const (
 	welcomeMsg = `<?xml version="1.0" encoding="UTF-8"?>
 <Response>
-    <Say>Hello Gopher, I took this demo down. Sorry!</Say>
+    <Say>Hello Gopher, how are you?</Say>
+	<Record timeout="5"/>
 </Response>`
 	comeInMsg = `<?xml version="1.0" encoding="UTF-8"?>
 <Response>
@@ -98,25 +99,19 @@ func fetchAudio(c context.Context, url string) ([]byte, error) {
 	return b, nil
 }
 
-var speechURL = "https://speech.googleapis.com/v1beta1/speech:syncrecognize?key=" +
+var speechURL = "https://speech.googleapis.com/v1/speech:recognize?key=" +
 	os.Getenv("SPEECH_API_KEY")
 
 func fetchTranscription(ctx context.Context, audio []byte) (string, error) {
-	type config struct {
-		Encoding   string `json:"encoding"`
-		SampleRate int    `json:"sampleRate"`
-	}
-	type content struct {
-		Content string `json:"content"`
-	}
-	type speechReq struct {
-		Config config  `json:"config"`
-		Audio  content `json:"audio"`
-	}
-
-	req := speechReq{
-		config{"LINEAR16", 8000},
-		content{base64.StdEncoding.EncodeToString(audio)},
+	req := map[string]interface{}{
+		"config": map[string]interface{}{
+			"encoding":        "LINEAR16",
+			"sampleRateHertz": 8000,
+			"languageCode":    "en-US",
+		},
+		"audio": map[string]interface{}{
+			"content": base64.StdEncoding.EncodeToString(audio),
+		},
 	}
 
 	payload, err := json.Marshal(req)
