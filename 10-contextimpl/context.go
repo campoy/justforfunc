@@ -114,7 +114,10 @@ func WithDeadline(parent Context, deadline time.Time) (Context, CancelFunc) {
 		deadline:  deadline,
 	}
 
-	t := time.AfterFunc(time.Until(deadline), func() {
+	// the line below has been replaced to work with version previous to go 1.8.
+	// timeout := time.Until(deadline)
+	timeout := deadline.Sub(time.Now())
+	t := time.AfterFunc(timeout, func() {
 		ctx.cancel(DeadlineExceeded)
 	})
 
