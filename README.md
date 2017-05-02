@@ -18,6 +18,11 @@ series [#justforfunc](http://youtube.com/c/justforfunc).
 - 10: Implementing The Context Package ([video](https://youtu.be/8M90t0KvEDY?list=PL64wiCrrxh4Jisi7OcCJIUpguV_f5jGnZ) and [source code](10-contextimpl))
 - 11: Review of an IRC package's API ([video](https://www.youtube.com/watch?v=nhElL62BSn0&index=12&list=PL64wiCrrxh4Jisi7OcCJIUpguV_f5jGnZ) and [source code](https://github.com/davidjpeacock/shelbot/pull/36))
 
+### Have an idea?
+
+Submit your ideas [here](https://francesc8.typeform.com/to/avO3Sc) or directly
+on Twitter for [@francesc](https://twitter.com/francesc).
+
 ### Disclaimer
 
 This is not an official Google product (experimental or otherwise), it is just
