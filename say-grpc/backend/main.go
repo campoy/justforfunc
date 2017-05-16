@@ -15,6 +15,7 @@ func main() {
 	port := flag.Int("p", 8080, "port to listen to")
 	flag.Parse()
 
+	logrus.Infof("listening to port %d", *port)
 	lis, err := net.Listen("tcp", fmt.Sprintf(":%d", *port))
 	if err != nil {
 		logrus.Fatalf("could not listen to port %d: %v", *port, err)
