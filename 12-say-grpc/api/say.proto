@@ -2,3 +2,14 @@ syntax = "proto3";
 
 package say;
 
+service SpeechServer {
+    rpc Say(Text) returns (Speech) {}
+}
+
+message Text {
+    string text = 1;
+}
+
+message Speech {
+    bytes sound = 1;
+}
