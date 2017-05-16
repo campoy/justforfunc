@@ -13,7 +13,12 @@ import (
 func main() {
 	backend := flag.String("b", "localhost:8080", "address of the say backend")
 	output := flag.String("o", "output.wav", "path of the output file")
+	verbose := flag.Bool("v", false, "verbose")
 	flag.Parse()
+
+	if *verbose {
+		logrus.SetLevel(logrus.DebugLevel)
+	}
 
 	conn, err := grpc.Dial(*backend, grpc.WithInsecure())
 	if err != nil {
@@ -29,6 +34,7 @@ func main() {
 		logrus.Fatalf("could not say %s: %v", text, err)
 	}
 
+	logrus.Debugf("received response with size %v", len(res.Sound))
 	if err := ioutil.WriteFile(*output, res.Sound, 0666); err != nil {
 		logrus.Fatalf("could not write to %s: %v", *output, err)
 	}
