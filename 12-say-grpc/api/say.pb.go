@@ -79,64 +79,64 @@ var _ grpc.ClientConn
 // is compatible with the grpc package it is being compiled against.
 const _ = grpc.SupportPackageIsVersion4
 
-// Client API for SpeechServer service
+// Client API for TextToSpeech service
 
-type SpeechServerClient interface {
+type TextToSpeechClient interface {
 	Say(ctx context.Context, in *Text, opts ...grpc.CallOption) (*Speech, error)
 }
 
-type speechServerClient struct {
+type textToSpeechClient struct {
 	cc *grpc.ClientConn
 }
 
-func NewSpeechServerClient(cc *grpc.ClientConn) SpeechServerClient {
-	return &speechServerClient{cc}
+func NewTextToSpeechClient(cc *grpc.ClientConn) TextToSpeechClient {
+	return &textToSpeechClient{cc}
 }
 
-func (c *speechServerClient) Say(ctx context.Context, in *Text, opts ...grpc.CallOption) (*Speech, error) {
+func (c *textToSpeechClient) Say(ctx context.Context, in *Text, opts ...grpc.CallOption) (*Speech, error) {
 	out := new(Speech)
-	err := grpc.Invoke(ctx, "/say.SpeechServer/Say", in, out, c.cc, opts...)
+	err := grpc.Invoke(ctx, "/say.TextToSpeech/Say", in, out, c.cc, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-// Server API for SpeechServer service
+// Server API for TextToSpeech service
 
-type SpeechServerServer interface {
+type TextToSpeechServer interface {
 	Say(context.Context, *Text) (*Speech, error)
 }
 
-func RegisterSpeechServerServer(s *grpc.Server, srv SpeechServerServer) {
-	s.RegisterService(&_SpeechServer_serviceDesc, srv)
+func RegisterTextToSpeechServer(s *grpc.Server, srv TextToSpeechServer) {
+	s.RegisterService(&_TextToSpeech_serviceDesc, srv)
 }
 
-func _SpeechServer_Say_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _TextToSpeech_Say_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(Text)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(SpeechServerServer).Say(ctx, in)
+		return srv.(TextToSpeechServer).Say(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/say.SpeechServer/Say",
+		FullMethod: "/say.TextToSpeech/Say",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(SpeechServerServer).Say(ctx, req.(*Text))
+		return srv.(TextToSpeechServer).Say(ctx, req.(*Text))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-var _SpeechServer_serviceDesc = grpc.ServiceDesc{
-	ServiceName: "say.SpeechServer",
-	HandlerType: (*SpeechServerServer)(nil),
+var _TextToSpeech_serviceDesc = grpc.ServiceDesc{
+	ServiceName: "say.TextToSpeech",
+	HandlerType: (*TextToSpeechServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
 			MethodName: "Say",
-			Handler:    _SpeechServer_Say_Handler,
+			Handler:    _TextToSpeech_Say_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
@@ -146,13 +146,13 @@ var _SpeechServer_serviceDesc = grpc.ServiceDesc{
 func init() { proto.RegisterFile("say.proto", fileDescriptor0) }
 
 var fileDescriptor0 = []byte{
-	// 128 bytes of a gzipped FileDescriptorProto
+	// 125 bytes of a gzipped FileDescriptorProto
 	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xe2, 0xe2, 0x2c, 0x4e, 0xac, 0xd4,
 	0x2b, 0x28, 0xca, 0x2f, 0xc9, 0x17, 0x62, 0x2e, 0x4e, 0xac, 0x54, 0x92, 0xe2, 0x62, 0x09, 0x49,
 	0xad, 0x28, 0x11, 0x12, 0xe2, 0x62, 0x29, 0x49, 0xad, 0x28, 0x91, 0x60, 0x54, 0x60, 0xd4, 0xe0,
 	0x0c, 0x02, 0xb3, 0x95, 0xe4, 0xb8, 0xd8, 0x82, 0x0b, 0x52, 0x53, 0x93, 0x33, 0x84, 0x44, 0xb8,
 	0x58, 0x8b, 0xf3, 0x4b, 0xf3, 0x52, 0xc0, 0xd2, 0x3c, 0x41, 0x10, 0x8e, 0x91, 0x3e, 0x17, 0x0f,
-	0x44, 0x3e, 0x38, 0xb5, 0xa8, 0x2c, 0xb5, 0x48, 0x48, 0x9e, 0x8b, 0x39, 0x38, 0xb1, 0x52, 0x88,
-	0x53, 0x0f, 0x64, 0x07, 0xc8, 0x54, 0x29, 0x6e, 0x30, 0x13, 0xa2, 0x48, 0x89, 0x21, 0x89, 0x0d,
-	0x6c, 0xb1, 0x31, 0x20, 0x00, 0x00, 0xff, 0xff, 0xdc, 0x4c, 0xcf, 0xba, 0x85, 0x00, 0x00, 0x00,
+	0x48, 0x6f, 0x48, 0x3e, 0x54, 0x95, 0x3c, 0x17, 0x73, 0x70, 0x62, 0xa5, 0x10, 0xa7, 0x1e, 0xc8,
+	0x0e, 0x90, 0x8c, 0x14, 0x37, 0x98, 0x09, 0x91, 0x56, 0x62, 0x48, 0x62, 0x03, 0x5b, 0x6c, 0x0c,
+	0x08, 0x00, 0x00, 0xff, 0xff, 0x91, 0x30, 0xd2, 0xa6, 0x85, 0x00, 0x00, 0x00,
 }
