@@ -17,6 +17,7 @@ series [#justforfunc](http://youtube.com/c/justforfunc).
 - 9: The Context Package ([video](https://www.youtube.com/watch?v=LSzR0VEraWw&index=1&list=PL64wiCrrxh4Jisi7OcCJIUpguV_f5jGnZ) and [source code](09-context))
 - 10: Implementing The Context Package ([video](https://youtu.be/8M90t0KvEDY?list=PL64wiCrrxh4Jisi7OcCJIUpguV_f5jGnZ) and [source code](10-contextimpl))
 - 11: Review of an IRC package's API ([video](https://www.youtube.com/watch?v=nhElL62BSn0&index=12&list=PL64wiCrrxh4Jisi7OcCJIUpguV_f5jGnZ) and [source code](https://github.com/davidjpeacock/shelbot/pull/36))
+- 12: A Text to Speech server with gRPC and Kubernetes ([video](https://www.youtube.com/watch?v=XaMr--wAuSI&index=12&list=PL64wiCrrxh4Jisi7OcCJIUpguV_f5jGnZ) and [source code](12-say-grpc))
 
 ### Have an idea?
 
