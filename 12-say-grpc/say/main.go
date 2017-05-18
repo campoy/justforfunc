@@ -1,41 +1,56 @@
+// Copyright 2016 Google Inc. All rights reserved.
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+// http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to writing, software distributed
+// under the License is distributed on a "AS IS" BASIS, WITHOUT WARRANTIES OR
+// CONDITIONS OF ANY KIND, either express or implied.
+//
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
 package main
 
 import (
 	"context"
 	"flag"
+	"fmt"
 	"io/ioutil"
+	"log"
+	"os"
 
-	"github.com/Sirupsen/logrus"
-	pb "github.com/campoy/justforfunc/12-say-grpc/api"
 	"google.golang.org/grpc"
+
+	pb "github.com/campoy/justforfunc/12-say-grpc/api"
 )
 
 func main() {
 	backend := flag.String("b", "localhost:8080", "address of the say backend")
-	output := flag.String("o", "output.wav", "path of the output file")
-	verbose := flag.Bool("v", false, "verbose")
+	output := flag.String("o", "output.wav", "wav file where the output will be written")
 	flag.Parse()
 
-	if *verbose {
-		logrus.SetLevel(logrus.DebugLevel)
+	if flag.NArg() < 1 {
+		fmt.Printf("usage:\n\t%s \"text to speak\"\n", os.Args[0])
+		os.Exit(1)
 	}
 
 	conn, err := grpc.Dial(*backend, grpc.WithInsecure())
 	if err != nil {
-		logrus.Fatalf("could not connect to %s: %v", *backend, err)
+		log.Fatalf("could not connect to %s: %v", *backend, err)
 	}
 	defer conn.Close()
 
-	text := "hello"
-
 	client := pb.NewTextToSpeechClient(conn)
-	res, err := client.Say(context.Background(), &pb.Text{Text: text})
+
+	text := &pb.Text{Text: flag.Arg(0)}
+	res, err := client.Say(context.Background(), text)
 	if err != nil {
-		logrus.Fatalf("could not say %s: %v", text, err)
+		log.Fatalf("could not say %s: %v", text.Text, err)
 	}
 
-	logrus.Debugf("received response with size %v", len(res.Sound))
-	if err := ioutil.WriteFile(*output, res.Sound, 0666); err != nil {
-		logrus.Fatalf("could not write to %s: %v", *output, err)
+	if err := ioutil.WriteFile(*output, res.Audio, 0666); err != nil {
+		log.Fatalf("could not write to %s: %v", *output, err)
 	}
 }

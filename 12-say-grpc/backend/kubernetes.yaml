@@ -11,8 +11,31 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FROM alpine
-
-RUN apk update && apk add flite
-ADD app /app
-ENTRYPOINT ["/app"]
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: say-deployment
+spec:
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: say
+    spec:
+      containers:
+      - name: say
+        image: gcr.io/justforfunc-prep/say
+        ports:
+        - containerPort: 8080
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: say-service
+spec:
+  selector:
+    app: say
+  ports:
+    - protocol: TCP
+      port: 8080
+  type: LoadBalancer
