@@ -1,0 +1,16 @@
+{
+    "dependencies": {
+        "github.com/Sirupsen/logrus": {
+            "branch": "master"
+        },
+        "github.com/campoy/justforfunc": {
+            "branch": "master"
+        },
+        "golang.org/x/net": {
+            "branch": "master"
+        },
+        "google.golang.org/grpc": {
+            "branch": "master"
+        }
+    }
+}

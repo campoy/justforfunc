@@ -11,10 +11,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+TAG=gcr.io/justforfunc-test/flite-dev
+
 build:
 	GOOS=linux go build -o app
-	docker build -t gcr.io/justforfunc-prep/say .
+	gcloud container builds submit --tag $TAG .
 	rm -f app
 
-push:
-	gcloud docker -- push gcr.io/justforfunc-prep/say
+pull:
+	gcloud docker -- pull $TAG

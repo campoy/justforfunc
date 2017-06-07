@@ -11,8 +11,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FROM alpine
+FROM golang:1.8
 
-RUN apk update && apk add flite
-ADD app /app
-ENTRYPOINT ["/app"]
+# RUN apk update && apk add flite flite-dev
+# RUN apk add bash
+
+RUN apt-get update && apt-get install -y flite-dev
+RUN apt-get install -y flite
+ADD app /go/src/app
+RUN go install app
+ENTRYPOINT ["/go/bin/app"]
