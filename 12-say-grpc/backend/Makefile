@@ -12,6 +12,9 @@
 # limitations under the License.
 
 build:
+	gcloud container builds submit --tag gcr.io/justforfunc-test/say .
+
+build-local:
 	docker build -t gcr.io/justforfunc-prep/say .
 
 push:

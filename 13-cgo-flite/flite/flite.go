@@ -18,11 +18,12 @@
 package flite
 
 // #cgo CFLAGS: -I /usr/include/flite
+// #cgo LDFLAGS: -lflite -lflite_cmu_us_kal -lflite_usenglish
 // #include <flite.h>
 // #include <stdlib.h>
-// #cgo LDFLAGS: -lflite -lflite_cmu_us_kal -lflite_usenglish
-// extern cst_voice *register_cmu_us_kal(const char *voxdir);
+// cst_voice *register_cmu_us_kal(const char *voxdir);
 import "C"
+
 import (
 	"fmt"
 	"io/ioutil"
@@ -58,9 +59,7 @@ func TextToSpeechBytes(text string) ([]byte, error) {
 	if err != nil {
 		return nil, fmt.Errorf("could not create tmp file: %v", err)
 	}
-	if err := f.Close(); err != nil {
-		return nil, fmt.Errorf("could not close %s: %v", f.Name(), err)
-	}
+	defer f.Close()
 
 	if err := TextToSpeechFile(f.Name(), text); err != nil {
 		return nil, err

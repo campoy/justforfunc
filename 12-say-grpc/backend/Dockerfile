@@ -11,15 +11,17 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FROM golang:1.8
+FROM golang:1.8 as builder
 
-RUN apt-get update && apt-get install -y bzip2
-RUN wget http://festvox.org/flite/packed/flite-2.0/flite-2.0.0-release.tar.bz2 && \
-    tar jxvf flite-2.0.0-release.tar.bz2 && cd flite-2.0.0-release && \
-    ./configure && make
-
+RUN apt-get update && apt-get install -y flite-dev
 RUN mkdir -p /go/src/app/vendor
 
 ADD main.go /go/src/app
 ADD vendor /go/src/app/vendor
-# RUN go install app
+RUN go install app
+
+FROM debian:jessie-slim
+RUN apt-get update && apt-get install -y flite-dev
+RUN apt-get remove bash
+COPY --from=builder /go/bin/app /app
+ENTRYPOINT ["/app"]
