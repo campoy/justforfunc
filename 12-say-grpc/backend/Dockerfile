@@ -18,6 +18,7 @@ FROM golang:1.8
 
 RUN apt-get update && apt-get install -y flite-dev
 RUN apt-get install -y flite
-ADD app /go/src/app
+ADD main.go /go/src/app
+ADD vendor /go/src/app
 RUN go install app
 ENTRYPOINT ["/go/bin/app"]
