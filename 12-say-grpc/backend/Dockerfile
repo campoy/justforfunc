@@ -13,12 +13,13 @@
 
 FROM golang:1.8
 
-# RUN apk update && apk add flite flite-dev
-# RUN apk add bash
+RUN apt-get update && apt-get install -y bzip2
+RUN wget http://festvox.org/flite/packed/flite-2.0/flite-2.0.0-release.tar.bz2 && \
+    tar jxvf flite-2.0.0-release.tar.bz2 && cd flite-2.0.0-release && \
+    ./configure && make
 
-RUN apt-get update && apt-get install -y flite-dev
-RUN apt-get install -y flite
+RUN mkdir -p /go/src/app/vendor
+
 ADD main.go /go/src/app
-ADD vendor /go/src/app
-RUN go install app
-ENTRYPOINT ["/go/bin/app"]
+ADD vendor /go/src/app/vendor
+# RUN go install app
