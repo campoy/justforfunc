@@ -22,6 +22,5 @@ RUN go install app
 
 FROM debian:jessie-slim
 RUN apt-get update && apt-get install -y flite-dev
-RUN apt-get remove bash
 COPY --from=builder /go/bin/app /app
 ENTRYPOINT ["/app"]

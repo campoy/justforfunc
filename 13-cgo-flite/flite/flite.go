@@ -11,6 +11,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+// +build linux
+
 // Package flite provides a cgo wrapping over the flite library available at
 // http://www.festvox.org/flite/.
 // It simply provides a wrapper over the text_to_speech function, and a helper
@@ -59,7 +61,7 @@ func TextToSpeechBytes(text string) ([]byte, error) {
 	if err != nil {
 		return nil, fmt.Errorf("could not create tmp file: %v", err)
 	}
-	defer f.Close()
+	f.Close()
 
 	if err := TextToSpeechFile(f.Name(), text); err != nil {
 		return nil, err
