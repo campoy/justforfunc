@@ -16,8 +16,8 @@ FROM golang:1.8 as builder
 RUN apt-get update && apt-get install -y flite-dev
 RUN mkdir -p /go/src/app/vendor
 
-ADD main.go /go/src/app
-ADD vendor /go/src/app/vendor
+COPY main.go /go/src/app
+COPY vendor /go/src/app/vendor
 RUN go install app
 
 FROM debian:jessie-slim

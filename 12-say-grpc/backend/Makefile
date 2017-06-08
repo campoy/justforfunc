@@ -14,8 +14,5 @@
 build:
 	gcloud container builds submit --tag gcr.io/justforfunc-test/say .
 
-build-local:
-	docker build -t gcr.io/justforfunc-prep/say .
-
-push:
-	gcloud docker -- push gcr.io/justforfunc-prep/say
+pull:
+	gcloud docker -- pull gcr.io/justforfunc-prep/say
