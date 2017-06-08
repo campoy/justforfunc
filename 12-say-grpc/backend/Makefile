@@ -12,9 +12,10 @@
 # limitations under the License.
 
 build:
-	GOOS=linux go build -o app
-	docker build -t gcr.io/justforfunc-prep/say .
-	rm -f app
+	gcloud container builds submit --tag gcr.io/justforfunc-test/say .
 
-push:
-	gcloud docker -- push gcr.io/justforfunc-prep/say
+pull:
+	gcloud docker -- pull gcr.io/justforfunc-test/say
+
+run:
+	docker run -p 8080:8080 gcr.io/justforfunc-test/say

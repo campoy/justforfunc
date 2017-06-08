@@ -16,12 +16,11 @@ package main
 import (
 	"flag"
 	"fmt"
-	"io/ioutil"
 	"net"
-	"os/exec"
 
 	"github.com/Sirupsen/logrus"
 	pb "github.com/campoy/justforfunc/12-say-grpc/api"
+	"github.com/campoy/justforfunc/13-cgo-flite/flite"
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
 )
@@ -47,22 +46,9 @@ func main() {
 type server struct{}
 
 func (server) Say(ctx context.Context, text *pb.Text) (*pb.Speech, error) {
-	f, err := ioutil.TempFile("", "")
+	data, err := flite.TextToSpeechBytes(text.Text)
 	if err != nil {
-		return nil, fmt.Errorf("could not create tmp file: %v", err)
-	}
-	if err := f.Close(); err != nil {
-		return nil, fmt.Errorf("could not close %s: %v", f.Name(), err)
-	}
-
-	cmd := exec.Command("flite", "-t", text.Text, "-o", f.Name())
-	if data, err := cmd.CombinedOutput(); err != nil {
-		return nil, fmt.Errorf("flite failed: %s", data)
-	}
-
-	data, err := ioutil.ReadFile(f.Name())
-	if err != nil {
-		return nil, fmt.Errorf("could not read tmp file: %v", err)
+		return nil, err
 	}
 	return &pb.Speech{Audio: data}, nil
 }

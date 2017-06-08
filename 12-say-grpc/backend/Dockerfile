@@ -11,8 +11,17 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FROM alpine
+FROM golang:1.8 as builder
 
-RUN apk update && apk add flite
-ADD app /app
+RUN apt-get update && apt-get install -y flite-dev
+RUN mkdir -p /go/src/app/vendor
+
+COPY main.go /go/src/app
+COPY Gopkg.lock Gopkg.toml /go/src/app/
+RUN go get github.com/golang/dep/... && cd /go/src/app && dep ensure
+RUN go install app
+
+FROM debian:jessie-slim
+RUN apt-get update && apt-get install -y flite-dev
+COPY --from=builder /go/bin/app /app
 ENTRYPOINT ["/app"]
