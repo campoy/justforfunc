@@ -17,7 +17,8 @@ RUN apt-get update && apt-get install -y flite-dev
 RUN mkdir -p /go/src/app/vendor
 
 COPY main.go /go/src/app
-COPY vendor /go/src/app/vendor
+COPY Gopkg.lock Gopkg.toml /go/src/app/
+RUN go get github.com/golang/dep/... && cd /go/src/app && dep ensure
 RUN go install app
 
 FROM debian:jessie-slim
