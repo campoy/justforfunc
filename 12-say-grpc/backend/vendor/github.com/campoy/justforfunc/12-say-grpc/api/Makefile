@@ -12,10 +12,4 @@
 # limitations under the License.
 
 build:
-	gcloud container builds submit --tag gcr.io/justforfunc-test/say .
-
-pull:
-	gcloud docker -- pull gcr.io/justforfunc-test/say
-
-run:
-	docker run -p 8080:8080 gcr.io/justforfunc-test/say
+	protoc -I . say.proto --go_out=plugins=grpc:.
