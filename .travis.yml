@@ -4,5 +4,9 @@ go:
   - 1.7
   - 1.8
   - master
+before_install:
+  - go get github.com/golang/dep/...
+install:
+  - dep ensure
 script:
-  - go test ./...
+  - for d in $(ls -d */ | grep -v vendor); do go test ./$d/...; done
