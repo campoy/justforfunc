@@ -18,10 +18,11 @@ series [#justforfunc](http://youtube.com/c/justforfunc).
 - 10: Implementing The Context Package ([video](https://youtu.be/8M90t0KvEDY?list=PL64wiCrrxh4Jisi7OcCJIUpguV_f5jGnZ) and [source code](10-contextimpl))
 - 11: Review of an IRC package's API ([video](https://www.youtube.com/watch?v=nhElL62BSn0&index=12&list=PL64wiCrrxh4Jisi7OcCJIUpguV_f5jGnZ) and [source code](https://github.com/davidjpeacock/shelbot/pull/36))
 - 12: A Text to Speech server with gRPC and Kubernetes ([video](https://www.youtube.com/watch?v=XaMr--wAuSI&index=12&list=PL64wiCrrxh4Jisi7OcCJIUpguV_f5jGnZ) and [source code](12-say-grpc))
+- 13: more Text to Speech with cgo and Docker multistage builds! ([video](https://www.youtube.com/watch?v=CVTbrVDeDDs&index=12&list=PL64wiCrrxh4Jisi7OcCJIUpguV_f5jGnZ) and [source code](13-flite-cgo))
 
 ### Have an idea?
 
-Submit your ideas [here](https://francesc8.typeform.com/to/avO3Sc) or directly
+Submit your ideas [here](https://form.justforfunc.om) or directly
 on Twitter for [@francesc](https://twitter.com/francesc).
 
 ### Disclaimer
