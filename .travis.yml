@@ -9,4 +9,4 @@ before_install:
 install:
   - dep ensure
 script:
-  - for d in $(ls -d */ | grep -v vendor); do go test ./$d/...; done
+  - for d in $(ls -d */ | grep -v vendor | grep -v cgo); do go test ./$d/...; done
