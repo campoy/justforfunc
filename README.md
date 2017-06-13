@@ -22,7 +22,7 @@ series [#justforfunc](http://youtube.com/c/justforfunc).
 
 ### Have an idea?
 
-Submit your ideas [here](https://form.justforfunc.com) or directly
+Submit your ideas [here](http://form.justforfunc.com) or directly
 on Twitter for [@francesc](https://twitter.com/francesc).
 
 ### Disclaimer
