@@ -19,6 +19,7 @@ package main
 import (
 	"bufio"
 	"fmt"
+	"io"
 	"os"
 
 	flags "github.com/jessevdk/go-flags"
@@ -57,11 +58,9 @@ func main() {
 	logger := client.Logger(opts.LogName)
 
 	// Read from Stdin and log it to Stdout and Stackdriver
-	s := bufio.NewScanner(os.Stdin)
+	s := bufio.NewScanner(io.TeeReader(os.Stdin, os.Stdout))
 	for s.Scan() {
-		text := s.Text()
-		fmt.Println(text)
-		logger.Log(logging.Entry{Payload: text})
+		logger.Log(logging.Entry{Payload: s.Text()})
 	}
 
 	// Closes the client and flushes the buffer to the Stackdriver Logging
