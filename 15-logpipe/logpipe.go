@@ -19,7 +19,6 @@ package main
 import (
 	"bufio"
 	"fmt"
-	"log"
 	"os"
 
 	flags "github.com/jessevdk/go-flags"
@@ -42,24 +41,22 @@ func main() {
 	logName := &opts.LogName
 
 	if *projectID == "" {
-		fmt.Printf("Please specify a project ID\n")
-		return
+		errorf("Please specify a project ID\n")
 	}
 
 	// Check if Standard In is coming from a pipe
 	fi, err := os.Stdin.Stat()
 	if err != nil {
-		panic(err)
+		errorf("Could not stat standard input: %v\n", err)
 	}
 	if fi.Mode()&os.ModeNamedPipe == 0 {
-		fmt.Printf("Nothing is piped in so there is nothing to log!\n")
-		return
+		errorf("Nothing is piped in so there is nothing to log!\n")
 	}
 
 	// Creates a client.
 	client, err := logging.NewClient(ctx, *projectID)
 	if err != nil {
-		log.Fatalf("Failed to create client: %v", err)
+		errorf("Failed to create client: %v", err)
 	}
 
 	// Selects the log to write to.
@@ -73,14 +70,17 @@ func main() {
 		logger.Log(logging.Entry{Payload: text})
 	}
 	if err := scanner.Err(); err != nil {
-		log.Fatalf("Failed to scan input: %v", err)
+		errorf("Failed to scan input: %v", err)
 	}
 
 	// Closes the client and flushes the buffer to the Stackdriver Logging
 	// service.
 	if err := client.Close(); err != nil {
-		log.Fatalf("Failed to close client: %v", err)
+		errorf("Failed to close client: %v", err)
 	}
+}
 
-	fmt.Printf("Finished logging\n")
+func errorf(format string, args ...interface{}) {
+	fmt.Fprintf(os.Stderr, format, args...)
+	os.Exit(2)
 }
