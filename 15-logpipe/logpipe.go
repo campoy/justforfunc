@@ -35,14 +35,13 @@ func main() {
 		LogName   string `short:"l" long:"logname" description:"The name of the log to write to" default:"default"`
 	}
 
-	flags.Parse(&opts)
+	_, err := flags.Parse(&opts)
+	if err != nil {
+		os.Exit(2)
+	}
 
 	projectID := &opts.ProjectID
 	logName := &opts.LogName
-
-	if *projectID == "" {
-		errorf("Please specify a project ID\n")
-	}
 
 	// Check if Standard In is coming from a pipe
 	fi, err := os.Stdin.Stat()
@@ -63,20 +62,21 @@ func main() {
 	logger := client.Logger(*logName)
 
 	// Read from Stdin and log it to Stdout and Stackdriver
-	scanner := bufio.NewScanner(os.Stdin)
-	for scanner.Scan() {
-		text := scanner.Text()
+	s := bufio.NewScanner(os.Stdin)
+	for s.Scan() {
+		text := s.Text()
 		fmt.Println(text)
 		logger.Log(logging.Entry{Payload: text})
-	}
-	if err := scanner.Err(); err != nil {
-		errorf("Failed to scan input: %v", err)
 	}
 
 	// Closes the client and flushes the buffer to the Stackdriver Logging
 	// service.
 	if err := client.Close(); err != nil {
 		errorf("Failed to close client: %v", err)
+	}
+
+	if err := s.Err(); err != nil {
+		errorf("Failed to scan input: %v", err)
 	}
 }
 
