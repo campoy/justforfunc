@@ -28,20 +28,14 @@ import (
 )
 
 func main() {
-	ctx := context.Background()
-
 	var opts struct {
 		ProjectID string `short:"p" long:"project" description:"Google Cloud Platform Project ID" required:"true"`
 		LogName   string `short:"l" long:"logname" description:"The name of the log to write to" default:"default"`
 	}
-
 	_, err := flags.Parse(&opts)
 	if err != nil {
 		os.Exit(2)
 	}
-
-	projectID := &opts.ProjectID
-	logName := &opts.LogName
 
 	// Check if Standard In is coming from a pipe
 	fi, err := os.Stdin.Stat()
@@ -53,13 +47,14 @@ func main() {
 	}
 
 	// Creates a client.
-	client, err := logging.NewClient(ctx, *projectID)
+	ctx := context.Background()
+	client, err := logging.NewClient(ctx, opts.ProjectID)
 	if err != nil {
 		errorf("Failed to create client: %v", err)
 	}
 
 	// Selects the log to write to.
-	logger := client.Logger(*logName)
+	logger := client.Logger(opts.LogName)
 
 	// Read from Stdin and log it to Stdout and Stackdriver
 	s := bufio.NewScanner(os.Stdin)
@@ -74,7 +69,6 @@ func main() {
 	if err := client.Close(); err != nil {
 		errorf("Failed to close client: %v", err)
 	}
-
 	if err := s.Err(); err != nil {
 		errorf("Failed to scan input: %v", err)
 	}
