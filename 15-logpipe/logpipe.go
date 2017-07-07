@@ -22,6 +22,7 @@ import (
 	"io"
 	"os"
 	"os/signal"
+	"time"
 
 	flags "github.com/jessevdk/go-flags"
 
@@ -54,6 +55,13 @@ func main() {
 	if err != nil {
 		errorf("Failed to create client: %v", err)
 	}
+
+	ctx, cancel := context.WithTimeout(ctx, 1*time.Second)
+	defer cancel()
+	if err := client.Ping(ctx); err != nil {
+		errorf("Failed to ping logging service: %v", err)
+	}
+
 	// Selects the log to write to.
 	logger := client.Logger(opts.LogName)
 
