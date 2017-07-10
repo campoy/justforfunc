@@ -20,6 +20,8 @@ series [#justforfunc](http://youtube.com/c/justforfunc).
 - 12: A Text to Speech server with gRPC and Kubernetes ([video](https://www.youtube.com/watch?v=XaMr--wAuSI&index=12&list=PL64wiCrrxh4Jisi7OcCJIUpguV_f5jGnZ) and [source code](12-say-grpc))
 - 13: more Text to Speech with cgo and Docker multistage builds! ([video](https://www.youtube.com/watch?v=yuW6BwOS8Eg&index=12&list=PL64wiCrrxh4Jisi7OcCJIUpguV_f5jGnZ) and [source code](13-flite-cgo))
 - 14: a twitter bot and systemd (that runs free on GCP) ([video](https://www.youtube.com/watch?v=SQeAKSJH4vw&index=12&list=PL64wiCrrxh4Jisi7OcCJIUpguV_f5jGnZ) and [source code](14-twitterbot))
+- 15: a code review with logging, errors, and signals ([video](https://www.youtube.com/watch?v=c5ufcpTGIJM&index=12&list=PL64wiCrrxh4Jisi7OcCJIUpguV_f5jGnZ) and [source code](15-logpipe))
+
 
 ### Have an idea?
 
