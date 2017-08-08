@@ -8,6 +8,8 @@ Today we put together some of the coolest technologies I know to build a replace
         <p>justforfunc #12: a Text to Speech server with gRPC and Kubernetes</p>
     </a>
 </div>
+Requirements:
+- Install [protobuf](https://github.com/google/protobuf/releases)
 
 References:
 - flite [docs](http://www.speech.cs.cmu.edu/flite/)
