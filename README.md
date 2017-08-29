@@ -22,6 +22,8 @@ series [#justforfunc](http://youtube.com/c/justforfunc).
 - 14: a twitter bot and systemd (that runs free on GCP) ([video](https://www.youtube.com/watch?v=SQeAKSJH4vw&index=12&list=PL64wiCrrxh4Jisi7OcCJIUpguV_f5jGnZ) and [source code](14-twitterbot))
 - 15: a code review with logging, errors, and signals ([video](https://www.youtube.com/watch?v=c5ufcpTGIJM&index=12&list=PL64wiCrrxh4Jisi7OcCJIUpguV_f5jGnZ) and [source code](15-logpipe))
 - 16: unit testing HTTP servers ([video](https://www.youtube.com/watch?v=hVFEV-ieeew&index=12&list=PL64wiCrrxh4Jisi7OcCJIUpguV_f5jGnZ) and [source code](16-testing))
+- 17: contributing to the Go project ([video](https://www.youtube.com/watch?v=DjZMKKfNVMc&index=12&list=PL64wiCrrxh4Jisi7OcCJIUpguV_f5jGnZ))
+- 18: understanding Go's type aliases ([video](https://www.youtube.com/watch?v=Vg603e9C-Vg&index=12&list=PL64wiCrrxh4Jisi7OcCJIUpguV_f5jGnZ))
 
 
 ### Have an idea?
