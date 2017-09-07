@@ -86,6 +86,7 @@ func TestRouting(t *testing.T) {
 	if err != nil {
 		t.Fatalf("could not send GET request: %v", err)
 	}
+	defer res.Body.Close()
 
 	if res.StatusCode != http.StatusOK {
 		t.Errorf("expected status OK; got %v", res.Status)
