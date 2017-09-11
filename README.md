@@ -26,7 +26,6 @@ series [#justforfunc](http://youtube.com/c/justforfunc).
 - 18: understanding Go's type aliases ([video](https://www.youtube.com/watch?v=Vg603e9C-Vg&index=12&list=PL64wiCrrxh4Jisi7OcCJIUpguV_f5jGnZ))
 - 19: mastering io.PipesAll ([video](https://www.youtube.com/watch?v=LHZ2CAZE6Gs&index=12&list=PL64wiCrrxh4Jisi7OcCJIUpguV_f5jGnZ)) and [source code](19-pipes))
 
-
 ### Have an idea?
 
 Submit your ideas [here](http://form.justforfunc.com) or directly
