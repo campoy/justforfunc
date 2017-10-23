@@ -57,7 +57,7 @@ func BenchmarkWorkers(b *testing.B) {
 	for _, size := range sizes {
 		b.Run(fmt.Sprint(size), func(b *testing.B) {
 			for i := 0; i < b.N; i++ {
-				createWorkers(size, size, false)
+				createWorkers(size, size)
 			}
 		})
 	}
@@ -67,7 +67,7 @@ func BenchmarkWorkersBuffered(b *testing.B) {
 	for _, size := range sizes {
 		b.Run(fmt.Sprint(size), func(b *testing.B) {
 			for i := 0; i < b.N; i++ {
-				createWorkers(size, size, true)
+				createWorkersBuffered(size, size)
 			}
 		})
 	}
@@ -77,7 +77,7 @@ func BenchmarkRowWorkers(b *testing.B) {
 	for _, size := range sizes {
 		b.Run(fmt.Sprint(size), func(b *testing.B) {
 			for i := 0; i < b.N; i++ {
-				createRowWorkers(size, size, false)
+				createRowWorkers(size, size)
 			}
 		})
 	}
@@ -87,7 +87,7 @@ func BenchmarkRowWorkersBuffered(b *testing.B) {
 	for _, size := range sizes {
 		b.Run(fmt.Sprint(size), func(b *testing.B) {
 			for i := 0; i < b.N; i++ {
-				createRowWorkers(size, size, true)
+				createRowWorkersBuffered(size, size)
 			}
 		})
 	}

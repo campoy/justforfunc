@@ -94,16 +94,11 @@ func createRow(width, height int) image.Image {
 }
 
 // createWorkers creates 8 workers and uses a channel to pass each pixel.
-func createWorkers(width, height int, buffered bool) image.Image {
+func createWorkers(width, height int) image.Image {
 	m := image.NewGray(image.Rect(0, 0, width, height))
 
 	type px struct{ x, y int }
-
-	cap := 0
-	if buffered {
-		cap = width * height
-	}
-	c := make(chan px, cap)
+	c := make(chan px)
 
 	var w sync.WaitGroup
 	w.Add(8)
@@ -124,18 +119,69 @@ func createWorkers(width, height int, buffered bool) image.Image {
 	close(c)
 	w.Wait()
 	return m
+}
 
+// createWorkersBuffered creates 8 workers and uses a buffered channel to pass each pixel.
+func createWorkersBuffered(width, height int) image.Image {
+	m := image.NewGray(image.Rect(0, 0, width, height))
+
+	type px struct{ x, y int }
+	c := make(chan px, width*height)
+
+	var w sync.WaitGroup
+	w.Add(8)
+	for i := 0; i < 8; i++ {
+		go func() {
+			for px := range c {
+				m.Set(px.x, px.y, pixel(px.x, px.y, width, height))
+			}
+			w.Done()
+		}()
+	}
+
+	for i := 0; i < width; i++ {
+		for j := 0; j < height; j++ {
+			c <- px{i, j}
+		}
+	}
+	close(c)
+	w.Wait()
+	return m
 }
 
 // createRowWorkers creates 8 workers and uses a channel to pass each row.
-func createRowWorkers(width, height int, buffered bool) image.Image {
+func createRowWorkers(width, height int) image.Image {
 	m := image.NewGray(image.Rect(0, 0, width, height))
 
-	cap := 0
-	if buffered {
-		cap = width
+	c := make(chan int)
+
+	var w sync.WaitGroup
+	w.Add(8)
+	for i := 0; i < 8; i++ {
+		go func() {
+			for i := range c {
+				for j := 0; j < height; j++ {
+					m.Set(i, j, pixel(i, j, width, height))
+				}
+			}
+			w.Done()
+		}()
 	}
-	c := make(chan int, cap)
+
+	for i := 0; i < width; i++ {
+		c <- i
+	}
+
+	close(c)
+	w.Wait()
+	return m
+}
+
+// createRowWorkersBuffered creates 8 workers and uses a buffered channel to pass each row.
+func createRowWorkersBuffered(width, height int) image.Image {
+	m := image.NewGray(image.Rect(0, 0, width, height))
+
+	c := make(chan int, width)
 
 	var w sync.WaitGroup
 	w.Add(8)
