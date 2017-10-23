@@ -32,6 +32,7 @@ $ go test -bench=.
 
 ```
 
+<<<<<<< HEAD
 If you want to run only the benchmarks for given size (e.g. 64) use:
 
 ```bash

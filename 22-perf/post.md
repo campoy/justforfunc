@@ -332,7 +332,7 @@ Oh, that doesn't seem like it's very well utilized after all. We've created too 
 which causes too much pressure on the runtime, both the scheduler and the garbage collector, and
 it shows as contention and wasted CPU time.
 
-### On go routines and dataraces
+### On go routines and data races
 
 Ok, so ... is this program correct? Are there any data races?
 The easiest way to show that there are no obvious data races is by using the data race detector.
