@@ -129,6 +129,8 @@ func createWorkers(width, height int, buffered bool) image.Image {
 
 // createRowWorkers creates 8 workers and uses a channel to pass each row.
 func createRowWorkers(width, height int, buffered bool) image.Image {
+	var poolSize = 8
+
 	m := image.NewGray(image.Rect(0, 0, width, height))
 
 	cap := 0
@@ -138,8 +140,8 @@ func createRowWorkers(width, height int, buffered bool) image.Image {
 	c := make(chan int, cap)
 
 	var w sync.WaitGroup
-	w.Add(8)
-	for i := 0; i < 8; i++ {
+	w.Add(poolSize)
+	for p := 0; p < poolSize; p++ {
 		go func() {
 			for i := range c {
 				for j := 0; j < height; j++ {
