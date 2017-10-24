@@ -202,7 +202,7 @@ We have a better idea of what our program spends most of the time: computing pix
 But what do we do now? It seems reasonable that a program that generates fractals spends
 most of the time, well ... generating fractals!
 
-There's things we could do to try and optimiza the CPU time, but in this post instead of going
+There's things we could do to try and optimize the CPU time, but in this post instead of going
 that way, we're going to see what other things we can do to speed up the program without
 changing the `pixel` function.
 
@@ -264,7 +264,7 @@ Let's go to a ridiculuous extreme and decide that, since each pixel can be compu
 we are going to create a goroutine per pixel. This, for our 2048x2048 image, means we're going to
 create over four million goroutines. We say goroutines are cheap ... so let's seee if that's true!
 
-The function that creates a goroutine per pixel is called `createdPixel`:
+The function that creates a goroutine per pixel is called `createPixel`:
 
 [embedmd]:# (main.go /func createPixel/ /^}/)
 ```go
