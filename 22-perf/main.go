@@ -42,7 +42,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	img := createPixel(width, height)
+	img := createCol(width, height)
 
 	if err = png.Encode(f, img); err != nil {
 		log.Fatal(err)
