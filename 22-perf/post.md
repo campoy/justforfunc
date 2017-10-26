@@ -1,4 +1,4 @@
-# Using the Go tracer to speed up fractal making
+# Using the Go execution tracer to speed up fractal rendering
 
 As an experiment, this is the first blog post form of a
 [justforfunc](https://www.youtube.com/watch?v=ySy3sR1LFCQ) episode,
@@ -6,8 +6,8 @@ you can also watch the corresponding episode.
 
 <div style="text-align:center">
     <a href="https://www.youtube.com/watch?v=ySy3sR1LFCQ&feature=youtu.be&list=PL6">
-        <img src="https://img.youtube.com/vi/ySy3sR1LFCQ/0.jpg" alt="justforfunc 22: using the Go tracer">
-        <p>justforfunc 22: using the Go tracer</p>
+        <img src="https://img.youtube.com/vi/ySy3sR1LFCQ/0.jpg" alt="justforfunc 22: using the Go execution tracer">
+        <p>justforfunc 22: using the Go execution tracer</p>
     </a>
 </div>
 
@@ -213,7 +213,7 @@ of code is running. It allows us to understand what the program is running when 
 what about when it's not? We're missing information that we can not (or at least not easily) extract
 from a pprof trace.
 
-The Go tracer, rather than pinging the program regularily to understand what it is up to, it instead
+The Go execution tracer, rather than pinging the program regularily to understand what it is up to, it instead
 hooks to the Go runtime to log every single event we care about. These events include:
 
 - go routine creation and destruction
@@ -221,7 +221,7 @@ hooks to the Go runtime to log every single event we care about. These events in
 - system calls
 - etc
 
-The most powerful side of the Go tracer is the amazing visualization it generates, which allows us
+The most powerful side of the Go execution tracer is the amazing visualization it generates, which allows us
 to see the "empty" space in our program.
 
 Let's create a trace from this program, by simply replacing our `pprof` calls by calls to the `runtime/trace`
