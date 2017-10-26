@@ -14,7 +14,7 @@ you can also watch the corresponding episode.
 
 ## The initial program
 
-We start with a very simple program, copied partly from Wikipedia, that creates a Mandelbrot fractal by
+We start with a very simple program, copied partly from [Wikipedia](https://en.wikipedia.org/wiki/Mandelbrot_set), that creates a Mandelbrot fractal by
 first computing the color of each pixel, and then writing the corresponding image to a PNG file.
 
 ```go
@@ -332,15 +332,88 @@ Oh, that doesn't seem like it's very well utilized after all. We've created too 
 which causes too much pressure on the runtime, both the scheduler and the garbage collector, and
 it shows as contention and wasted CPU time.
 
+### On go routines and dataraces
+
+Ok, so ... is this program correct? Are there any data races?
+The easiest way to show that there are no obvious data races is by using the data race detector.
+
+To do so you can simply add `-race` to the `go build|run|test` command. If you try it with the
+program as is it will fail:
+
+```bash
+$ go build -o mandelbrot -race
+$ time ./mandelbrot
+race: limit on 8192 simultaneously alive goroutines is exceeded, dying
+./mandelbrot  0.49s user 1.00s system 99% cpu 1.483 total
+```
+
+There's a limit of 8192 alive goroutines, and with 4 millions we clearly exceed it.
+Instead let's use the benchmarks I wrote, which generate smaller images.
+
+Let's run it with and without the data race detector to compare the performances.
+
+```bash
+$ go test -bench=Pixel
+goos: darwin
+goarch: amd64
+pkg: github.com/campoy/justforfunc/22-perf
+BenchmarkPixel/64-8                 2000           1003116 ns/op
+BenchmarkPixel/128-8                 300           5003258 ns/op
+BenchmarkPixel/256-8                 100          19693236 ns/op
+BenchmarkPixel/512-8                  20          86670280 ns/op
+PASS
+ok      github.com/campoy/justforfunc/22-perf   7.894s
+
+$ go test -bench=Pixel -race
+go test -bench=Pixel -race
+goos: darwin
+goarch: amd64
+pkg: github.com/campoy/justforfunc/22-perf
+BenchmarkPixel/64-8                   10         181391401 ns/op
+BenchmarkPixel/128-8                   2         729349776 ns/op
+BenchmarkPixel/256-8                   1        2923114988 ns/op
+BenchmarkPixel/512-8                   1        12477182754 ns/op
+PASS
+ok      github.com/campoy/justforfunc/22-perf   20.626s
+```
+
+There's a clear difference, but the good news it's it didn't panic. This means
+no data races were detected. There might be some data race, but the code we just
+run didn't cause any.
+
+In a previous version of the code (see the video for more details) the anonymous function
+in the go routine didn't get any parameters. This caused a data race on both `i` and `j`.
+
+```go
+func createPixel(width, height int) image.Image {
+	m := image.NewGray(image.Rect(0, 0, width, height))
+	var w sync.WaitGroup
+	w.Add(width * height)
+	for i := 0; i < width; i++ {
+		for j := 0; j < height; j++ {
+			go func() {
+				m.Set(i, j, pixel(i, j, width, height))
+				w.Done()
+			}()
+		}
+	}
+	w.Wait()
+	return m
+}
+```
+
+It's also worth mentioning that `m.Set` being called from different go routines is not a
+problem since we are modifying different positions in a preallocated slice.
+
 ## Finding compromise in between too few and too many
 
-Ok, so one goroutine is too many, but four millions is too much. Let's go right in between and
-go with one goroutine per row. This time we'll call `createRow` which creates a goroutine per
-row, so "only" 2048 of them.
+Ok, so one goroutine is too few, but four millions is too many. Let's go right in between and
+go with one goroutine per column. This time we'll call `createCol` which creates a goroutine per
+column, so "only" 2048 of them.
 
-[embedmd]:# (main.go /func createRow/ /^}/)
+[embedmd]:# (main.go /func createCol/ /^}/)
 ```go
-func createRow(width, height int) image.Image {
+func createCol(width, height int) image.Image {
 	m := image.NewGray(image.Rect(0, 0, width, height))
 	var w sync.WaitGroup
 	w.Add(width)
@@ -369,22 +442,22 @@ Ok, we went from almost five seconds, to three, and now less than a second!
 What does the trace look like? Let's check it out.
 
 ```bash
-$ time ./mandelbrot > row.trace
-./mandelbrot > row.trace  4.79s user 0.02s system 498% cpu 0.966 total
+$ time ./mandelbrot > col.trace
+./mandelbrot > col.trace  4.79s user 0.02s system 498% cpu 0.966 total
 
-$ go tool trace row.trace
+$ go tool trace col.trace
 2017/10/23 11:41:29 Parsing trace...
 2017/10/23 11:41:29 Serializing trace...
 2017/10/23 11:41:30 Splitting trace...
 2017/10/23 11:41:30 Opening browser
 ```
 
-![row trace](img/row.png)
+![col trace](img/col.png)
 
 That looks pretty good! We can see that the CPUs are pretty busy first, then we move to one goroutine
 to encode the image into the file. Let's zoom in, though (feeling like CSI already?).
 
-![row trace](img/row-zoom.png)
+![col trace](img/col-zoom.png)
 
 That looks very good! But, can we do better?
 
@@ -403,8 +476,8 @@ func createWorkers(width, height int) image.Image {
 	c := make(chan px)
 
 	var w sync.WaitGroup
-	w.Add(8)
-	for i := 0; i < 8; i++ {
+	for n := 0; n < numWorkers; n++ {
+		w.Add(1)
 		go func() {
 			for px := range c {
 				m.Set(px.x, px.y, pixel(px.x, px.y, width, height))
@@ -495,7 +568,7 @@ $ time ./mandelbrot
 ./mandelbrot  8.55s user 0.37s system 494% cpu 1.804 total
 ```
 
-It is much faster than before but still not nearly as fast as creating one goroutine per row.
+It is much faster than before but still not nearly as fast as creating one goroutine per column.
 
 The tracer shows that we still have some contention, and pprof quantifies it to 613ms.
 
@@ -518,18 +591,18 @@ Sending values through channels has a very low cost, but it does have a cost and
 over 4 million times in this program.
 
 It seems like a good idea to limit this cost by creating fewer tasks. How can we even do that?
-Each task should be larger: let's create a task per row.
+Each task should be larger: let's create a task per column.
 
-[embedmd]:# (main.go /func createRowWorkers/ /^}/)
+[embedmd]:# (main.go /func createColWorkers/ /^}/)
 ```go
-func createRowWorkers(width, height int) image.Image {
+func createColWorkers(width, height int) image.Image {
 	m := image.NewGray(image.Rect(0, 0, width, height))
 
 	c := make(chan int)
 
 	var w sync.WaitGroup
-	w.Add(8)
-	for i := 0; i < 8; i++ {
+	for n := 0; n < numWorkers; n++ {
+		w.Add(1)
 		go func() {
 			for i := range c {
 				for j := 0; j < height; j++ {
@@ -557,7 +630,7 @@ $ time ./mandelbrot
 ./mandelbrot  4.72s user 0.04s system 495% cpu 0.962 total
 ```
 
-Pretty fast! And if we added a buffer to the channel, as shown in `createRowWorkersBuffered`?
+Pretty fast! And if we added a buffer to the channel, as shown in `createColWorkersBuffered`?
 
 ```bash
 $ time ./mandelbrot
@@ -568,7 +641,7 @@ Just a tiny bit better.
 
 # Conclusion
 
-So, it seems like creating one goroutine per row is the fastest option, but probably this changes
+So, it seems like creating one goroutine per column is the fastest option, but probably this changes
 given different image sizes. It is time to write benchmarks (they're already written in the repo!),
 look at the traces and pprof data and make sensible and informed decisions.
 

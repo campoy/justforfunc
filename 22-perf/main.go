@@ -26,9 +26,10 @@ import (
 )
 
 const (
-	output = "out.png"
-	width  = 2048
-	height = 2048
+	output     = "out.png"
+	width      = 2048
+	height     = 2048
+	numWorkers = 8
 )
 
 func main() {
@@ -41,7 +42,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	img := createRow(width, height)
+	img := createPixel(width, height)
 
 	if err = png.Encode(f, img); err != nil {
 		log.Fatal(err)
@@ -76,8 +77,8 @@ func createPixel(width, height int) image.Image {
 	return m
 }
 
-// createRow creates one goroutine per row.
-func createRow(width, height int) image.Image {
+// createCol creates one goroutine per column.
+func createCol(width, height int) image.Image {
 	m := image.NewGray(image.Rect(0, 0, width, height))
 	var w sync.WaitGroup
 	w.Add(width)
@@ -93,7 +94,7 @@ func createRow(width, height int) image.Image {
 	return m
 }
 
-// createWorkers creates 8 workers and uses a channel to pass each pixel.
+// createWorkers creates numWorkers workers and uses a channel to pass each pixel.
 func createWorkers(width, height int) image.Image {
 	m := image.NewGray(image.Rect(0, 0, width, height))
 
@@ -101,8 +102,8 @@ func createWorkers(width, height int) image.Image {
 	c := make(chan px)
 
 	var w sync.WaitGroup
-	w.Add(8)
-	for i := 0; i < 8; i++ {
+	for n := 0; n < numWorkers; n++ {
+		w.Add(1)
 		go func() {
 			for px := range c {
 				m.Set(px.x, px.y, pixel(px.x, px.y, width, height))
@@ -121,7 +122,7 @@ func createWorkers(width, height int) image.Image {
 	return m
 }
 
-// createWorkersBuffered creates 8 workers and uses a buffered channel to pass each pixel.
+// createWorkersBuffered creates numWorkers workers and uses a buffered channel to pass each pixel.
 func createWorkersBuffered(width, height int) image.Image {
 	m := image.NewGray(image.Rect(0, 0, width, height))
 
@@ -129,8 +130,8 @@ func createWorkersBuffered(width, height int) image.Image {
 	c := make(chan px, width*height)
 
 	var w sync.WaitGroup
-	w.Add(8)
-	for i := 0; i < 8; i++ {
+	for n := 0; n < numWorkers; n++ {
+		w.Add(1)
 		go func() {
 			for px := range c {
 				m.Set(px.x, px.y, pixel(px.x, px.y, width, height))
@@ -149,15 +150,15 @@ func createWorkersBuffered(width, height int) image.Image {
 	return m
 }
 
-// createRowWorkers creates 8 workers and uses a channel to pass each row.
-func createRowWorkers(width, height int) image.Image {
+// createColWorkers creates numWorkers workers and uses a channel to pass each column.
+func createColWorkers(width, height int) image.Image {
 	m := image.NewGray(image.Rect(0, 0, width, height))
 
 	c := make(chan int)
 
 	var w sync.WaitGroup
-	w.Add(8)
-	for i := 0; i < 8; i++ {
+	for n := 0; n < numWorkers; n++ {
+		w.Add(1)
 		go func() {
 			for i := range c {
 				for j := 0; j < height; j++ {
@@ -177,15 +178,15 @@ func createRowWorkers(width, height int) image.Image {
 	return m
 }
 
-// createRowWorkersBuffered creates 8 workers and uses a buffered channel to pass each row.
-func createRowWorkersBuffered(width, height int) image.Image {
+// createColWorkersBuffered creates numWorkers workers and uses a buffered channel to pass each column.
+func createColWorkersBuffered(width, height int) image.Image {
 	m := image.NewGray(image.Rect(0, 0, width, height))
 
 	c := make(chan int, width)
 
 	var w sync.WaitGroup
-	w.Add(8)
-	for i := 0; i < 8; i++ {
+	for n := 0; n < numWorkers; n++ {
+		w.Add(1)
 		go func() {
 			for i := range c {
 				for j := 0; j < height; j++ {
