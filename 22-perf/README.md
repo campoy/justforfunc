@@ -1,4 +1,4 @@
-# Using the Go tracer
+# Using the Go execution tracer
 
 Watch the episode here:
 
@@ -8,6 +8,8 @@ Watch the episode here:
         <p>justforfunc 22: using the Go tracer</p>
     </a>
 </div>
+
+Or read the blog post [here](https://campoy.cat/blog/justforfunc-22-using-the-go-tracer/).
 
 What is the fastest way to compute a Mandelbrot set like the one below?
 
