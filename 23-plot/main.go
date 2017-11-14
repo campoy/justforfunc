@@ -21,7 +21,9 @@ func main() {
 	var s server
 
 	http.HandleFunc("/", s.root)
-	http.HandleFunc("/statz", errorHandler(s.statz))
+	http.HandleFunc("/statz", s.statz)
+	http.HandleFunc("/statz/scatter.png", errorHandler(s.scatter))
+	http.HandleFunc("/statz/hist.png", errorHandler(s.hist))
 	log.Fatal(http.ListenAndServe("localhost:8080", nil))
 }
 
@@ -36,7 +38,7 @@ func (s *server) root(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	x := 1000 * rand.Float64()
+	x := 500 + 200*rand.NormFloat64()
 	d := time.Duration(x) * time.Millisecond
 	// time.Sleep(d)
 	fmt.Fprintln(w, "slept for", d)
@@ -49,7 +51,25 @@ func (s *server) root(w http.ResponseWriter, r *http.Request) {
 	s.Unlock()
 }
 
-func (s *server) statz(w http.ResponseWriter, r *http.Request) error {
+func (s *server) statz(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintf(w, "%s", `
+		<h1>Latency stats</h1>
+		<img src="/statz/scatter.png?rand=0" style="width:50%">
+		<img src="/statz/hist.png?rand=0" style="width:50%">
+		<script>
+		setInterval(function() {
+			var imgs = document.getElementsByTagName("IMG");
+			for (var i=0; i < imgs.length; i++) {
+				var eqPos = imgs[i].src.lastIndexOf("=");
+				var src = imgs[i].src.substr(0, eqPos+1);
+				imgs[i].src = src + Math.random();
+			}
+		}, 250);
+		</script>
+	`)
+}
+
+func (s *server) scatter(w http.ResponseWriter, r *http.Request) error {
 	s.RLock()
 	defer s.RUnlock()
 
@@ -95,7 +115,37 @@ func (s *server) statz(w http.ResponseWriter, r *http.Request) error {
 		return errors.Wrap(err, "could not create writer to")
 	}
 
-	w.Header().Set("Content-Type", "image/png")
+	_, err = wt.WriteTo(w)
+	return errors.Wrap(err, "could not write to output")
+}
+
+func (s *server) hist(w http.ResponseWriter, r *http.Request) error {
+	s.RLock()
+	defer s.RUnlock()
+
+	vs := make(plotter.Values, len(s.data))
+	for i, d := range s.data {
+		vs[i] = float64(d) / float64(time.Millisecond)
+	}
+
+	h, err := plotter.NewHist(vs, 50)
+	if err != nil {
+		return errors.Wrap(err, "could not create histogram")
+	}
+
+	p, err := plot.New()
+	if err != nil {
+		return errors.Wrap(err, "could not create plot")
+	}
+	p.Add(h)
+	p.Title.Text = "Distribution"
+	p.X.Label.Text = "ms"
+
+	wt, err := p.WriterTo(512, 512, "png")
+	if err != nil {
+		return errors.Wrap(err, "could not create writer to")
+	}
+
 	_, err = wt.WriteTo(w)
 	return errors.Wrap(err, "could not write to output")
 }
