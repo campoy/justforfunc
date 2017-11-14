@@ -28,6 +28,7 @@ series [#justforfunc](http://youtube.com/c/justforfunc).
 - 20: code reviewing ursho (part 1) ([video](https://www.youtube.com/watch?v=SWKuYLqouIY&list=PL64wiCrrxh4Jisi7OcCJIUpguV_f5jGnZ&index=3) and [source code](https://github.com/douglasmakey/ursho/pull/2))
 - 21: code reviewing ursho (part 2) ([video](https://www.youtube.com/watch?v=zBc338CZRpk&list=PL64wiCrrxh4Jisi7OcCJIUpguV_f5jGnZ&index=2) and [source code](https://github.com/douglasmakey/ursho/pull/2))
 - 22: using the Go tracer ([video](https://www.youtube.com/watch?v=ySy3sR1LFCQ&list=PL64wiCrrxh4Jisi7OcCJIUpguV_f5jGnZ&index=1) and [source code](22-perf))
+- 23: plotting latency distributions with gonum ([video](https://www.youtube.com/watch?v=77ZFKuMLkp4&feature=youtu.be&list=PL6) and [source code](23-plot))
 
 ### Have an idea?
 
