@@ -1,5 +1,7 @@
 # justforfunc
 
+[![Build Status](https://travis-ci.org/campoy/justforfunc.svg?branch=master)](https://travis-ci.org/campoy/justforfunc)
+
 This repository contains the code for most of the episodes from the YouTube
 series [#justforfunc](http://youtube.com/c/justforfunc).
 
