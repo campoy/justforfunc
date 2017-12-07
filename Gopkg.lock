@@ -2,6 +2,30 @@
 
 
 [[projects]]
+  branch = "default"
+  name = "bitbucket.org/zombiezen/gopdf"
+  packages = ["pdf"]
+  revision = "1c63dc69751bc45441c2ce1f56b631c55294b4d5"
+
+[[projects]]
+  name = "cloud.google.com/go"
+  packages = ["compute/metadata","internal/version","logging","logging/apiv2","logging/internal"]
+  revision = "2d3a6656c17a60b0815b7e06ab0be04eacb6e613"
+  version = "v0.16.0"
+
+[[projects]]
+  name = "github.com/ChimeraCoder/anaconda"
+  packages = ["."]
+  revision = "0cb3e4c3ff8c6df5c73d5058c64e9c4eb6299c4b"
+  version = "v1.0.0"
+
+[[projects]]
+  branch = "master"
+  name = "github.com/ChimeraCoder/tokenbucket"
+  packages = ["."]
+  revision = "c5a927568de7aad8a58127d80bcd36ca4e71e454"
+
+[[projects]]
   branch = "master"
   name = "github.com/Sirupsen/logrus"
   packages = ["."]
@@ -9,15 +33,93 @@
 
 [[projects]]
   branch = "master"
+  name = "github.com/ajstarks/svgo"
+  packages = ["."]
+  revision = "f9be02f22f2c23fbdd01ed76e5c7f5af79e13f9b"
+
+[[projects]]
+  branch = "master"
+  name = "github.com/azr/backoff"
+  packages = ["."]
+  revision = "53511d3c733003985b0b76f733df1f4d0095ee6a"
+
+[[projects]]
+  branch = "master"
+  name = "github.com/dustin/go-jsonpointer"
+  packages = ["."]
+  revision = "ba0abeacc3dcca5b9b20f31509c46794edbc9965"
+
+[[projects]]
+  branch = "master"
+  name = "github.com/dustin/gojson"
+  packages = ["."]
+  revision = "2e71ec9dd5adce3b168cd0dbde03b5cc04951c30"
+
+[[projects]]
+  branch = "master"
+  name = "github.com/garyburd/go-oauth"
+  packages = ["oauth"]
+  revision = "4cff9ef7b7003713efa191899dbaab8fa75e3e73"
+
+[[projects]]
+  branch = "master"
+  name = "github.com/golang/freetype"
+  packages = [".","raster","truetype"]
+  revision = "e2365dfdc4a05e4b8299a783240d4a7d5a65d4e4"
+
+[[projects]]
+  branch = "master"
   name = "github.com/golang/protobuf"
-  packages = ["proto","ptypes/any"]
+  packages = ["proto","protoc-gen-go/descriptor","ptypes","ptypes/any","ptypes/duration","ptypes/empty","ptypes/struct","ptypes/timestamp"]
   revision = "18c9bb3261723cd5401db4d0c9fbc5c3b6c70fe8"
+
+[[projects]]
+  name = "github.com/googleapis/gax-go"
+  packages = ["."]
+  revision = "317e0006254c44a0ac427cc52a0e083ff0b9622f"
+  version = "v2.0.0"
+
+[[projects]]
+  name = "github.com/jessevdk/go-flags"
+  packages = ["."]
+  revision = "96dc06278ce32a0e9d957d590bb987c81ee66407"
+  version = "v1.3.0"
+
+[[projects]]
+  branch = "master"
+  name = "github.com/llgcode/draw2d"
+  packages = [".","draw2dbase","draw2dimg"]
+  revision = "f3e35015aa4f1232e03907ee3618af62dbaeab70"
+
+[[projects]]
+  name = "github.com/pkg/errors"
+  packages = ["."]
+  revision = "645ef00459ed84a119197bfb8d8205042c6df63d"
+  version = "v0.8.0"
+
+[[projects]]
+  branch = "master"
+  name = "golang.org/x/image"
+  packages = ["draw","font","math/f64","math/fixed","tiff","tiff/lzw"]
+  revision = "f7e31b4ea2e3413ab91b4e7d2dc83e5f8d19a44c"
 
 [[projects]]
   branch = "master"
   name = "golang.org/x/net"
-  packages = ["context","http2","http2/hpack","idna","internal/timeseries","lex/httplex","trace"]
+  packages = ["context","context/ctxhttp","http2","http2/hpack","idna","internal/timeseries","lex/httplex","trace"]
   revision = "feeb485667d1fdabe727840fe00adc22431bc86e"
+
+[[projects]]
+  branch = "master"
+  name = "golang.org/x/oauth2"
+  packages = [".","google","internal","jws","jwt"]
+  revision = "6a2004c8907a86949d71c664c81574897a4e55a6"
+
+[[projects]]
+  branch = "master"
+  name = "golang.org/x/sync"
+  packages = ["semaphore"]
+  revision = "fd80eb99c8f653c847d294a001bdf2a3a6f768f5"
 
 [[projects]]
   branch = "master"
@@ -33,25 +135,43 @@
 
 [[projects]]
   branch = "master"
+  name = "gonum.org/v1/gonum"
+  packages = ["blas","blas/blas64","blas/gonum","floats","internal/asm/c128","internal/asm/f32","internal/asm/f64","internal/math32","lapack","lapack/gonum","lapack/lapack64","mat"]
+  revision = "c1df60472979f5cbc27c9a7739086e879a03c8bc"
+
+[[projects]]
+  branch = "master"
+  name = "gonum.org/v1/plot"
+  packages = [".","palette","plotter","tools/bezier","vg","vg/draw","vg/fonts","vg/vgeps","vg/vgimg","vg/vgpdf","vg/vgsvg"]
+  revision = "feab214a240f4312b98ab52baf662b55ff1ee377"
+
+[[projects]]
+  branch = "master"
+  name = "google.golang.org/api"
+  packages = ["googleapi/transport","internal","iterator","option","support/bundler","transport","transport/grpc","transport/http"]
+  revision = "e31351a3998a5bddef4462979b301901b02003d1"
+
+[[projects]]
+  branch = "master"
   name = "google.golang.org/appengine"
-  packages = [".","internal","internal/app_identity","internal/base","internal/datastore","internal/log","internal/modules","internal/remote_api","internal/urlfetch","log","urlfetch"]
+  packages = [".","internal","internal/app_identity","internal/base","internal/datastore","internal/log","internal/modules","internal/remote_api","internal/socket","internal/urlfetch","log","socket","urlfetch"]
   revision = "3a452f9e00122ead39586d68ffdb9c6e1326af3c"
 
 [[projects]]
   branch = "master"
   name = "google.golang.org/genproto"
-  packages = ["googleapis/rpc/status"]
+  packages = ["googleapis/api/annotations","googleapis/api/distribution","googleapis/api/label","googleapis/api/metric","googleapis/api/monitoredres","googleapis/logging/type","googleapis/logging/v2","googleapis/rpc/status"]
   revision = "411e09b969b1170a9f0c467558eb4c4c110d9c77"
 
 [[projects]]
   branch = "master"
   name = "google.golang.org/grpc"
-  packages = [".","codes","credentials","grpclb/grpc_lb_v1","grpclog","internal","keepalive","metadata","naming","peer","stats","status","tap","transport"]
+  packages = [".","codes","credentials","credentials/oauth","grpclb/grpc_lb_v1","grpclog","internal","keepalive","metadata","naming","peer","stats","status","tap","transport"]
   revision = "68a5d50f4517bae2b44b18092410fe248d153f1e"
 
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "bfd65b43b9f0c5a4feba23d3b727ec1e18244d4499f6333e757843771a745b8a"
+  inputs-digest = "8921807443f73ee95b25b800f2687db6d71a05403b9425f51848387a1768ceca"
   solver-name = "gps-cdcl"
   solver-version = 1
