@@ -1,0 +1,11 @@
+language: go
+
+os:
+  - linux
+  - osx
+
+go:
+  - 1.6
+  - 1.7
+  - 1.8
+  - tip

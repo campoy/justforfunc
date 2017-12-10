@@ -1,0 +1,6 @@
+*.swp
+*.swo
+*.swn
+conf.sh
+*.patch
+anaconda.test
