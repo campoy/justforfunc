@@ -1,0 +1,8 @@
+clone_folder: c:\gopath\src\github.com\ChimeraCoder\anaconda
+
+environment:
+    GOPATH: c:\gopath
+
+build_script:
+    - go get .
+    - go test -v
