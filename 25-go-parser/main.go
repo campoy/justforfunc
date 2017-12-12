@@ -1,3 +1,6 @@
+// parser parses the go programs in the given paths and prints
+// the top five most common names of local variables and variables
+// defined at package level.
 package main
 
 import (
@@ -94,6 +97,23 @@ func (v visitor) Visit(n ast.Node) ast.Visitor {
 	case *ast.RangeStmt:
 		countLocalIdent(v, d.Key)
 		countLocalIdent(v, d.Value)
+	case *ast.FuncDecl:
+		for _, param := range d.Type.Params.List {
+			for _, name := range param.Names {
+				countLocalIdent(v, name)
+			}
+		}
+
+		if d.Type.Results == nil {
+			return v
+		}
+		for _, result := range d.Type.Results.List {
+			for _, name := range result.Names {
+				if name.Name != "" {
+					countLocalIdent(v, name)
+				}
+			}
+		}
 	case *ast.GenDecl:
 		if d.Tok != token.VAR {
 			return v
