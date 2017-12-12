@@ -12,8 +12,8 @@ Watch the episode here:
 This is the first episode of a series on program analysis.
 We will answer the question "what's the most common identifier in the Go standard library"?
 
-And to do so we will use the most simple tool at our disposal: go/parser
+And to do so we will use the most simple tool at our disposal: go/scanner
 
 References:
 
-- go/parser: https://golang.org/pkg/go/parser
+- go/scanner: https://golang.org/pkg/go/scanner

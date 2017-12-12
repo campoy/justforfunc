@@ -1,3 +1,5 @@
+// scanner scans the go programs in the given paths and prints
+// the top five most common names used as identifiers.
 package main
 
 import (
