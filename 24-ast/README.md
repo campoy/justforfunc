@@ -1,19 +1,31 @@
-#  What's the most common identifier in the Go stdlib?
+#  Analyzing Go code for fun
 
-Watch the episode here:
+This folder contains the episodes in the program analysis
+series of justforfunc.
+
+The episodes so far are:
+
+- What's the most common identifier in the Go stdlib?
 
 <div style="text-align:center">
     <a href="https://www.youtube.com/watch?v=k23xhJoTbI4&feature=youtu.be&list=PL6">
-        <img src="https://img.youtube.com/vi/k23xhJoTbI4/0.jpg" alt="justforfunc 23: what's the most common identifier in the Go stdlib?">
+        <img src="https://img.youtube.com/vi/k23xhJoTbI4/0.jpg" alt="justforfunc 24: what's the most common identifier in the Go stdlib?">
         <p>justforfunc 24: what's the most common identifier in the Go stdlib?</p>
     </a>
 </div>
 
-This is the first episode of a series on program analysis.
-We will answer the question "what's the most common identifier in the Go standard library"?
+- What's the most common local and global variable name and in the Go stdlib?
 
-And to do so we will use the most simple tool at our disposal: go/parser
+<div style="text-align:center">
+    <a href="https://youtu.be/YRWCa84pykM">
+        <img src="https://img.youtube.com/vi/k23xhJoTbI4/0.jpg" alt="justforfunc 25: deeper program analysis with go/parser">
+        <p>justforfunc 25: deeper program analysis with go/parser</p>
+    </a>
+</div>
 
-References:
+## References:
 
+- go/scanner: https://golang.org/pkg/go/scanner
 - go/parser: https://golang.org/pkg/go/parser
+- go/ast: https://golang.org/pkg/go/ast
+- go-spew: https://github.com/davecgh/go-spew
