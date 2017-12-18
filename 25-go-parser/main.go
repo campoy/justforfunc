@@ -92,27 +92,18 @@ func (v visitor) Visit(n ast.Node) ast.Visitor {
 			return v
 		}
 		for _, name := range d.Lhs {
-			countLocalIdent(v, name)
+			v.local(name)
 		}
 	case *ast.RangeStmt:
-		countLocalIdent(v, d.Key)
-		countLocalIdent(v, d.Value)
+		v.local(d.Key)
+		v.local(d.Value)
 	case *ast.FuncDecl:
-		for _, param := range d.Type.Params.List {
-			for _, name := range param.Names {
-				countLocalIdent(v, name)
-			}
+		if d.Recv != nil {
+			v.localList(d.Recv.List)
 		}
-
-		if d.Type.Results == nil {
-			return v
-		}
-		for _, result := range d.Type.Results.List {
-			for _, name := range result.Names {
-				if name.Name != "" {
-					countLocalIdent(v, name)
-				}
-			}
+		v.localList(d.Type.Params.List)
+		if d.Type.Results != nil {
+			v.localList(d.Type.Results.List)
 		}
 	case *ast.GenDecl:
 		if d.Tok != token.VAR {
@@ -137,15 +128,23 @@ func (v visitor) Visit(n ast.Node) ast.Visitor {
 	return v
 }
 
-func countLocalIdent(v visitor, n ast.Node) {
+func (v visitor) local(n ast.Node) {
 	ident, ok := n.(*ast.Ident)
 	if !ok {
 		return
 	}
-	if ident.Name == "_" {
+	if ident.Name == "_" || ident.Name == "" {
 		return
 	}
 	if ident.Obj != nil && ident.Obj.Pos() == ident.Pos() {
 		v.locals[ident.Name]++
+	}
+}
+
+func (v visitor) localList(fs []*ast.Field) {
+	for _, f := range fs {
+		for _, name := range f.Names {
+			v.local(name)
+		}
 	}
 }
