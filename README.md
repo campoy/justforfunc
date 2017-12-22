@@ -31,6 +31,8 @@ series [#justforfunc](http://youtube.com/c/justforfunc).
 - 21: code reviewing ursho (part 2) ([video](https://www.youtube.com/watch?v=zBc338CZRpk&list=PL64wiCrrxh4Jisi7OcCJIUpguV_f5jGnZ&index=2) and [source code](https://github.com/douglasmakey/ursho/pull/2))
 - 22: using the Go tracer ([video](https://www.youtube.com/watch?v=ySy3sR1LFCQ&list=PL64wiCrrxh4Jisi7OcCJIUpguV_f5jGnZ&index=1) and [source code](22-perf))
 - 23: plotting latency distributions with gonum ([video](https://www.youtube.com/watch?v=77ZFKuMLkp4&feature=youtu.be&list=PL6) and [source code](23-plot))
+- 24: What's the most common identifier in the Go stdlib? ([video](https://www.youtube.com/watch?v=k23xhJoTbI4&list=PL64wiCrrxh4Jisi7OcCJIUpguV_f5jGnZ) and [source code](24-go-ast))
+- 25: deeper program analysis with go/parser ([video](https://www.youtube.com/watch?v=YRWCa84pykM&list=PL64wiCrrxh4Jisi7OcCJIUpguV_f5jGnZ) and [source code](25-go-parser))
 
 ### Have an idea?
 
