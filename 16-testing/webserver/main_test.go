@@ -39,7 +39,7 @@ func TestDoubleHandler(t *testing.T) {
 		t.Run(tc.name, func(t *testing.T) {
 			req, err := http.NewRequest("GET", "localhost:8080/double?v="+tc.value, nil)
 			if err != nil {
-				t.Fatalf("could not created request: %v", err)
+				t.Fatalf("could not create request: %v", err)
 			}
 			rec := httptest.NewRecorder()
 			doubleHandler(rec, req)
