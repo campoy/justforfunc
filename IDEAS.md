@@ -4,3 +4,4 @@ List of ideas I should do
 - SVG from Go (svg badge)
 - dep overview
 - goland vs vscode with Kris Nova
+- moving svg-badge to apex?
