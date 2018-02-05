@@ -32,6 +32,7 @@ series [#justforfunc](http://youtube.com/c/justforfunc).
 - 24: What's the most common identifier in the Go stdlib? ([video](https://www.youtube.com/watch?v=k23xhJoTbI4&list=PL64wiCrrxh4Jisi7OcCJIUpguV_f5jGnZ) and [source code](24-go-ast))
 - 25: deeper program analysis with go/parser ([video](https://www.youtube.com/watch?v=YRWCa84pykM&list=PL64wiCrrxh4Jisi7OcCJIUpguV_f5jGnZ) and [source code](25-go-parser))
 - 26: Why are there nil channels in Go? ([video](https://youtu.be/t9bEg2A4jsw) and [source code](26-nil-chans))
+- 27: Two ways of merging N channels ([video](https://youtu.be/B64hIRjNvLc) and [source code](27-merging-chans))
 
 ### Have an idea?
 
