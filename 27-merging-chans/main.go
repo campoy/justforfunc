@@ -2,10 +2,8 @@ package main
 
 import (
 	"fmt"
-	"math/rand"
 	"reflect"
 	"sync"
-	"time"
 )
 
 func main() {
@@ -43,7 +41,6 @@ func asChan(vs ...int) <-chan int {
 	go func() {
 		for _, v := range vs {
 			c <- v
-			time.Sleep(time.Duration(rand.Intn(1000)) * time.Millisecond)
 		}
 		close(c)
 	}()
@@ -73,4 +70,47 @@ func mergeReflect(chans ...<-chan int) <-chan int {
 	}()
 	return out
 
+}
+
+func mergeRec(chans ...<-chan int) <-chan int {
+	switch len(chans) {
+	case 0:
+		c := make(chan int)
+		close(c)
+		return c
+	case 1:
+		return chans[0]
+	case 2:
+		return mergeTwo(chans[0], chans[1])
+	default:
+		m := len(chans) / 2
+		return mergeTwo(
+			mergeRec(chans[:m]...),
+			mergeRec(chans[m:]...))
+	}
+}
+
+func mergeTwo(a, b <-chan int) <-chan int {
+	c := make(chan int)
+
+	go func() {
+		defer close(c)
+		for a != nil || b != nil {
+			select {
+			case v, ok := <-a:
+				if !ok {
+					a = nil
+					continue
+				}
+				c <- v
+			case v, ok := <-b:
+				if !ok {
+					b = nil
+					continue
+				}
+				c <- v
+			}
+		}
+	}()
+	return c
 }
