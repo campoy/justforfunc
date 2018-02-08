@@ -12,6 +12,7 @@ var funcs = []struct {
 	{"goroutines", merge},
 	{"reflection", mergeReflect},
 	{"recursion", mergeRec},
+	{"goroutinesBufferedChan", mergeBufferedChan},
 }
 
 func TestMerge(t *testing.T) {
