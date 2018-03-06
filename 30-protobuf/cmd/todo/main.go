@@ -2,7 +2,7 @@ package main
 
 import (
 	"bytes"
-	"encoding/gob"
+	"encoding/binary"
 	"flag"
 	"fmt"
 	"io/ioutil"
@@ -35,7 +35,14 @@ func main() {
 	}
 }
 
-const dbPath = "mydb.pb"
+type length int64
+
+const (
+	sizeOfLength = 8
+	dbPath       = "mydb.pb"
+)
+
+var endianness = binary.LittleEndian
 
 func add(text string) error {
 	task := &todo.Task{
@@ -53,7 +60,7 @@ func add(text string) error {
 		return fmt.Errorf("could not open %s: %v", dbPath, err)
 	}
 
-	if err := gob.NewEncoder(f).Encode(int64(len(b))); err != nil {
+	if err := binary.Write(f, endianness, length(len(b))); err != nil {
 		return fmt.Errorf("could not encode length of message: %v", err)
 	}
 	_, err = f.Write(b)
@@ -76,21 +83,21 @@ func list() error {
 	for {
 		if len(b) == 0 {
 			return nil
-		} else if len(b) < 4 {
+		} else if len(b) < sizeOfLength {
 			return fmt.Errorf("remaining odd %d bytes, what to do?", len(b))
 		}
 
-		var length int64
-		if err := gob.NewDecoder(bytes.NewReader(b[:4])).Decode(&length); err != nil {
+		var l length
+		if err := binary.Read(bytes.NewReader(b[:sizeOfLength]), endianness, &l); err != nil {
 			return fmt.Errorf("could not decode message length: %v", err)
 		}
-		b = b[4:]
+		b = b[sizeOfLength:]
 
 		var task todo.Task
-		if err := proto.Unmarshal(b[:length], &task); err != nil {
+		if err := proto.Unmarshal(b[:l], &task); err != nil {
 			return fmt.Errorf("could not read task: %v", err)
 		}
-		b = b[length:]
+		b = b[l:]
 
 		if task.Done {
 			fmt.Printf("👍")
