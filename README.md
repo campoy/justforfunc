@@ -35,6 +35,7 @@ series [#justforfunc](http://youtube.com/c/justforfunc).
 - 27: Two ways of merging N channels ([video](https://youtu.be/B64hIRjNvLc) and [source code](27-merging-chans))
 - 28: Basic Benchmarks ([video](https://youtu.be/2AulMm-hsdI) and [source code](27-merging-chans))
 - 29: Dependency Injection in a Code Review ([video](https://youtu.be/ifBUfIb7kdo) and [source code](https://github.com/gerlacdt/db-key-value-store/pull/1))
+- 30: The Basics of Protocol Buffers ([video](https://youtu.be/_jQ3i_fyqGA) and [source code](30-protobuf))
 
 ### Have an idea?
 
