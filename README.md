@@ -37,6 +37,7 @@ series [#justforfunc](http://youtube.com/c/justforfunc).
 - 29: Dependency Injection in a Code Review ([video](https://youtu.be/ifBUfIb7kdo) and [source code](https://github.com/gerlacdt/db-key-value-store/pull/1))
 - 30: The Basics of Protocol Buffers ([video](https://youtu.be/_jQ3i_fyqGA) and [source code](30-protobuf))
 - 31: gRPC Basic ([video](https://youtu.be/uolTUtioIrc) and [source code](31-grpc))
+- 32: CLI tools with Cobra ([video](https://youtu.be/WvWPGVKLvR4) and [source code](32-cobra))
 
 ### Have an idea?
 
