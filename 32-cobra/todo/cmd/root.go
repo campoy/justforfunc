@@ -18,7 +18,9 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/campoy/justforfunc/31-grpc/todo"
 	"github.com/spf13/cobra"
+	grpc "google.golang.org/grpc"
 )
 
 // rootCmd represents the base command when called without any subcommands
@@ -28,6 +30,17 @@ var rootCmd = &cobra.Command{
 	Long: `todo is the most awesome project you'll ever see.
 	
 And you can say that in multiple lines! Yay!`,
+}
+
+var client todo.TasksClient
+
+func init() {
+	conn, err := grpc.Dial(":8888", grpc.WithInsecure())
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "could not connect to backend: %v\n", err)
+		os.Exit(1)
+	}
+	client = todo.NewTasksClient(conn)
 }
 
 // Execute adds all child commands to the root command and sets flags appropriately.

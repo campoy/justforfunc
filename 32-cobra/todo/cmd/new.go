@@ -15,8 +15,11 @@
 package cmd
 
 import (
+	"context"
 	"fmt"
+	"strings"
 
+	"github.com/campoy/justforfunc/31-grpc/todo"
 	"github.com/spf13/cobra"
 )
 
@@ -24,11 +27,21 @@ import (
 var newCmd = &cobra.Command{
 	Use:   "new",
 	Short: "Creates a new task with the given text",
-	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("new called")
+	RunE: func(cmd *cobra.Command, args []string) error {
+		return add(context.Background(), strings.Join(args, " "))
 	},
 }
 
 func init() {
 	rootCmd.AddCommand(newCmd)
+}
+
+func add(ctx context.Context, text string) error {
+	_, err := client.Add(ctx, &todo.Text{Text: text})
+	if err != nil {
+		return fmt.Errorf("could not add task in the backend: %v", err)
+	}
+
+	fmt.Println("task added successfully")
+	return nil
 }
