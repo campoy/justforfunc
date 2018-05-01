@@ -38,6 +38,7 @@ series [#justforfunc](http://youtube.com/c/justforfunc).
 - 30: The Basics of Protocol Buffers ([video](https://youtu.be/_jQ3i_fyqGA) and [source code](30-protobuf))
 - 31: gRPC Basic ([video](https://youtu.be/uolTUtioIrc) and [source code](31-grpc))
 - 32: CLI tools with Cobra ([video](https://youtu.be/WvWPGVKLvR4) and [source code](32-cobra))
+- 33: The Rise and Fall of CORBA ([video](https://youtu.be/zgSZNCltUD0))
 
 ### Have an idea?
 
