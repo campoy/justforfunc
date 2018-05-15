@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"log"
 	"os"
+
+	"gonum.org/v1/plot"
 )
 
 func main() {
@@ -12,8 +14,11 @@ func main() {
 	if err != nil {
 		log.Fatalf("could not read data.txt: %v", err)
 	}
-	for _, xy := range xys {
-		fmt.Println(xy.x, xy.y)
+	_ = xys
+
+	err = plotData("out.png", xys)
+	if err != nil {
+		log.Fatalf("could not plot data: %v", err)
 	}
 }
 
@@ -40,4 +45,29 @@ func readData(path string) ([]xy, error) {
 		return nil, fmt.Errorf("could not scan: %v", err)
 	}
 	return xys, nil
+}
+
+func plotData(path string, xys []xy) error {
+	f, err := os.Create(path)
+	if err != nil {
+		return fmt.Errorf("could not create %s: %v", path, err)
+	}
+
+	p, err := plot.New()
+	if err != nil {
+		return fmt.Errorf("could not create plot: %v", err)
+	}
+	wt, err := p.WriterTo(512, 512, "png")
+	if err != nil {
+		return fmt.Errorf("could not create writer: %v", err)
+	}
+	_, err = wt.WriteTo(f)
+	if err != nil {
+		return fmt.Errorf("could not write to %s: %v", path, err)
+	}
+
+	if err := f.Close(); err != nil {
+		return fmt.Errorf("could not close %s: %v", path, err)
+	}
+	return nil
 }
