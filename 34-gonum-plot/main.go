@@ -41,6 +41,7 @@ func readData(path string) (plotter.XYs, error) {
 		_, err := fmt.Sscanf(s.Text(), "%f,%f", &x, &y)
 		if err != nil {
 			log.Printf("discarding bad data point %q: %v", s.Text(), err)
+			continue
 		}
 		xys = append(xys, struct{ X, Y float64 }{x, y})
 	}
