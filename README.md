@@ -39,7 +39,8 @@ series [#justforfunc](http://youtube.com/c/justforfunc).
 - 31: gRPC Basic ([video](https://youtu.be/uolTUtioIrc) and [source code](31-grpc))
 - 32: CLI tools with Cobra ([video](https://youtu.be/WvWPGVKLvR4) and [source code](32-cobra))
 - 33: The Rise and Fall of CORBA ([video](https://youtu.be/zgSZNCltUD0))
-- 34: Plotting Data with gonum/plot (ML4G #1) ([video](Your video will be live at: https://youtu.be/ihP7lQivA6M) and [source code](34-gonum-plot))
+- 34: Plotting Data with gonum/plot (ML4G #1) ([video](https://youtu.be/ihP7lQivA6M) and [source code](34-gonum-plot))
+- 35: Implementing the tree command from scratch ([video](https://youtu.be/XbKSssBftLM) and [source code](35-tree))
 
 ### Have an idea?
 
