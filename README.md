@@ -41,6 +41,7 @@ series [#justforfunc](http://youtube.com/c/justforfunc).
 - 33: The Rise and Fall of CORBA ([video](https://youtu.be/zgSZNCltUD0))
 - 34: Plotting Data with gonum/plot (ML4G #1) ([video](https://youtu.be/ihP7lQivA6M) and [source code](34-gonum-plot))
 - 35: Implementing the tree command from scratch ([video](https://youtu.be/XbKSssBftLM) and [source code](35-tree))
+- 36: Versions, build constraints, and ldflags ([video](https://youtu.be/-XSlev-d7UY) and [source code](36-versions))
 
 ### Have an idea?
 
