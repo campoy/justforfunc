@@ -42,6 +42,7 @@ series [#justforfunc](http://youtube.com/c/justforfunc).
 - 34: Plotting Data with gonum/plot (ML4G #1) ([video](https://youtu.be/ihP7lQivA6M) and [source code](34-gonum-plot))
 - 35: Implementing the tree command from scratch ([video](https://youtu.be/XbKSssBftLM) and [source code](35-tree))
 - 36: Versions, build constraints, and ldflags ([video](https://youtu.be/-XSlev-d7UY) and [source code](36-versions))
+- 37: sync.Pool from the pool ([video](https://youtu.be/rfXSrgIGrKo) and [source code](37-sync-pool))
 
 ### Have an idea?
 

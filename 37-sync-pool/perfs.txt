@@ -1,0 +1,14 @@
+1st: github.PullRequestEvent no pool
+501355 ns/op           94244 B/op        883 allocs/op
+
+2nd: github.PullRequestEvent + pool (INCORRECT)
+475185 ns/op           84467 B/op        540 allocs/op
+
+3rd: github.PullRequestEvent + pool + reset ID
+596516 ns/op           84457 B/op        541 allocs/op
+
+4th: github.PullRequestEvent + pool + full reset
+500846 ns/op           94210 B/op        882 allocs/op
+
+5th: smaller type + pool + no reset
+216684 ns/op           68569 B/op        245 allocs/op
