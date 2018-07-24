@@ -43,6 +43,7 @@ series [#justforfunc](http://youtube.com/c/justforfunc).
 - 35: Implementing the tree command from scratch ([video](https://youtu.be/XbKSssBftLM) and [source code](35-tree))
 - 36: Versions, build constraints, and ldflags ([video](https://youtu.be/-XSlev-d7UY) and [source code](36-versions))
 - 37: sync.Pool from the pool ([video](https://youtu.be/rfXSrgIGrKo) and [source code](37-sync-pool))
+- 38: Linear Regression with Gradient Descent (ML4G #2) ([video](https://youtu.be/ZPd_fKyrX48) and [source code](38-linreg-vanilla))
 
 ### Have an idea?
 
