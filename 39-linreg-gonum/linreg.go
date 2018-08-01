@@ -19,7 +19,14 @@ func linearRegression(x, y []float64, alpha float64) (m, c float64) {
 	return m, c
 }
 
+func clone(x []float64) []float64 {
+	c := make([]float64, len(x))
+	copy(c, x)
+	return c
+}
+
 func computeCost(x, y []float64, m, c float64) float64 {
+	x, y = clone(x), clone(y)
 	floats.Scale(m, x)    // m * x
 	floats.AddConst(c, x) // m * x + c
 	floats.Sub(y, x)      // y - (m*x + c)
@@ -27,14 +34,15 @@ func computeCost(x, y []float64, m, c float64) float64 {
 }
 
 func computeGradient(x, y []float64, m, c float64) (dm, dc float64) {
+	origX := x
+	x, y = clone(x), clone(y)
 	floats.Scale(m, x)    // m * x
 	floats.AddConst(c, x) // m * x + c
 	floats.Sub(y, x)      // y - (m*x + c)
 
 	f := -2 / float64(len(x))
 	// cost/dm = -2/N * sum(x * (y - (m*x+c)))
-	// dm = f * floats.Dot(x, y)
-	dm = f * floats.Dot(x, y)
+	dm = f * floats.Dot(origX, y)
 	// cost/dc = -2/N * sum((y - (m*x+c)))
 	dc = f * floats.Sum(y)
 	return dm, dc
