@@ -2,15 +2,20 @@ package main
 
 import (
 	"fmt"
+	"math/rand"
 	"testing"
 )
 
 func TestComputeGradient(t *testing.T) {
 	x := []float64{1, 2, 3, 4, 5}
 	y := []float64{1, 1, 1, 1, 1}
+	buf := make([]float64, len(x))
 	m, c := 2.0, 3.0
-	dm, dc := computeGradient(x, y, m, c)
-	wm, wc := computeGradientLoop(x, y, m, c)
+	cost, dm, dc := computeGradient(buf, x, y, m, c)
+	wcost, wm, wc := computeGradientLoop(buf, x, y, m, c)
+	if cost != wcost {
+		t.Errorf("expected cost %g; got %g", wcost, cost)
+	}
 	if dm != wm {
 		t.Errorf("expected dm %g; got %g", wm, dm)
 	}
@@ -19,21 +24,35 @@ func TestComputeGradient(t *testing.T) {
 	}
 }
 
-func computeGradientLoop(x, y []float64, m, c float64) (dm, dc float64) {
-	// cost = 1/N * sum((y - (m*x+c))^2)
-	// cost/dm = 2/N * sum(-x * (y - (m*x+c)))
-	// cost/dc = 2/N * sum(-(y - (m*x+c)))
-	fmt.Println("loop")
-	fmt.Println("x", x)
+func BenchmarkComputeGradient(b *testing.B) {
+	x := make([]float64, 1000)
+	y := make([]float64, 1000)
 	for i := range x {
-		fmt.Println("x[i]", x[i])
-		fmt.Println("x[i]*m", x[i]*m)
-		d := y[i] - (x[i]*m + c)
-		fmt.Println("d", d)
-		dm += -x[i] * d
-		fmt.Println("dm", x[i]*d)
-		dc += -d
+		x[i] = rand.Float64()
+		y[i] = rand.Float64()
 	}
-	n := float64(len(x))
-	return 2 / n * dm, 2 / n * dc
+	buf := make([]float64, len(x))
+
+	for i := 0; i < 10; i++ {
+		b.Run(fmt.Sprint(len(x)), func(b *testing.B) {
+			fs := []struct {
+				name string
+				f    func(buf, x, y []float64, m, c float64) (cost, dm, dc float64)
+			}{
+				{"floats", computeGradient},
+				{"loop", computeGradientLoop},
+			}
+			for _, f := range fs {
+				b.Run(f.name, func(b *testing.B) {
+					for i := 0; i < b.N; i++ {
+						f.f(buf, x, y, 1, 2)
+					}
+				})
+			}
+		})
+
+		x = append(x, x...)
+		y = append(y, y...)
+		buf = make([]float64, len(x))
+	}
 }

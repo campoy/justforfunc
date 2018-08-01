@@ -19,12 +19,12 @@ func main() {
 	flag.IntVar(&iterations, "n", 1000, "number of iterations")
 	flag.Parse()
 
-	xys, err := readData("data.txt")
+	x, y, err := readData("data.txt")
 	if err != nil {
 		log.Fatalf("could not read data.txt: %v", err)
 	}
 
-	err = plotData("out.png", xys)
+	err = plotData("out.png", x, y)
 	if err != nil {
 		log.Fatalf("could not plot data: %v", err)
 	}
@@ -32,31 +32,36 @@ func main() {
 
 type xy struct{ x, y float64 }
 
-func readData(path string) (plotter.XYs, error) {
+func readData(path string) (x, y []float64, err error) {
 	f, err := os.Open(path)
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 	defer f.Close()
 
-	var xys plotter.XYs
 	s := bufio.NewScanner(f)
 	for s.Scan() {
-		var x, y float64
-		_, err := fmt.Sscanf(s.Text(), "%f,%f", &x, &y)
+		var a, b float64
+		_, err := fmt.Sscanf(s.Text(), "%f,%f", &a, &b)
 		if err != nil {
 			log.Printf("discarding bad data point %q: %v", s.Text(), err)
 			continue
 		}
-		xys = append(xys, struct{ X, Y float64 }{x, y})
+		x = append(x, a)
+		y = append(y, b)
 	}
 	if err := s.Err(); err != nil {
-		return nil, fmt.Errorf("could not scan: %v", err)
+		return nil, nil, fmt.Errorf("could not scan: %v", err)
 	}
-	return xys, nil
+	return x, y, nil
 }
 
-func plotData(path string, xys plotter.XYs) error {
+type zip struct{ x, y []float64 }
+
+func (z zip) Len() int                { return len(z.x) }
+func (z zip) XY(i int) (x, y float64) { return z.x[i], z.y[i] }
+
+func plotData(path string, x, y []float64) error {
 	f, err := os.Create(path)
 	if err != nil {
 		return fmt.Errorf("could not create %s: %v", path, err)
@@ -67,6 +72,7 @@ func plotData(path string, xys plotter.XYs) error {
 		return fmt.Errorf("could not create plot: %v", err)
 	}
 
+	xys := zip{x, y}
 	// create scatter with all data points
 	s, err := plotter.NewScatter(xys)
 	if err != nil {
@@ -76,7 +82,6 @@ func plotData(path string, xys plotter.XYs) error {
 	s.Color = color.RGBA{R: 255, A: 255}
 	p.Add(s)
 
-	x, y := toVecs(xys)
 	m, c := linearRegression(x, y, 0.01)
 
 	// create fake linear regression result
@@ -101,16 +106,4 @@ func plotData(path string, xys plotter.XYs) error {
 		return fmt.Errorf("could not close %s: %v", path, err)
 	}
 	return nil
-}
-
-func toVecs(xys plotter.XYs) (x, y []float64) {
-	x = make([]float64, len(xys))
-	y = make([]float64, len(xys))
-
-	for i, xy := range xys {
-		x[i] = xy.X
-		y[i] = xy.Y
-	}
-
-	return x, y
 }

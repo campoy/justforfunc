@@ -7,43 +7,47 @@ import (
 )
 
 func linearRegression(x, y []float64, alpha float64) (m, c float64) {
+	var cost, dm, dc float64
+	buf := make([]float64, len(x))
+
 	for i := 0; i < iterations; i++ {
-		dm, dc := computeGradient(x, y, m, c)
+		cost, dm, dc = computeGradient(buf, x, y, m, c)
 		m += -dm * alpha
 		c += -dc * alpha
-		fmt.Printf("cost(%.2f, %.2f) = %.2f\n", m, c, computeCost(x, y, m, c))
+		if i%(iterations/100) == 0 {
+			fmt.Printf("% 3.0f%% : cost(%.2f, %.2f) = %.2f\n",
+				100*float64(i)/float64(iterations), m, c, cost)
+		}
 	}
 
-	fmt.Printf("cost(%.2f, %.2f) = %.2f\n", m, c, computeCost(x, y, m, c))
+	fmt.Printf("100%% : cost(%.2f, %.2f) = %.2f\n", m, c, cost)
 
 	return m, c
 }
 
-func clone(x []float64) []float64 {
-	c := make([]float64, len(x))
-	copy(c, x)
-	return c
+func computeGradient(buf, x, y []float64, m, c float64) (cost, dm, dc float64) {
+	copy(buf, x)
+	floats.Scale(m, buf)
+	floats.AddConst(c, buf)
+	floats.Sub(buf, y)
+
+	n := float64(len(x))
+	cost = floats.Dot(buf, buf) / n
+	dm = 2 * floats.Dot(x, buf) / n
+	dc = 2 * floats.Sum(buf) / n
+	return cost, dm, dc
 }
 
-func computeCost(x, y []float64, m, c float64) float64 {
-	x, y = clone(x), clone(y)
-	floats.Scale(m, x)    // m * x
-	floats.AddConst(c, x) // m * x + c
-	floats.Sub(y, x)      // y - (m*x + c)
-	return floats.Dot(y, y) / float64(len(x))
-}
-
-func computeGradient(x, y []float64, m, c float64) (dm, dc float64) {
-	origX := x
-	x, y = clone(x), clone(y)
-	floats.Scale(m, x)    // m * x
-	floats.AddConst(c, x) // m * x + c
-	floats.Sub(y, x)      // y - (m*x + c)
-
-	f := -2 / float64(len(x))
-	// cost/dm = -2/N * sum(x * (y - (m*x+c)))
-	dm = f * floats.Dot(origX, y)
-	// cost/dc = -2/N * sum((y - (m*x+c)))
-	dc = f * floats.Sum(y)
-	return dm, dc
+func computeGradientLoop(buf, x, y []float64, m, c float64) (cost, dm, dc float64) {
+	for i := range x {
+		d := y[i] - (x[i]*m + c)
+		cost += d * d
+		dm += -x[i] * d
+		dc += -d
+	}
+	n := float64(len(x))
+	cost = cost / n
+	dm = 2 * dm / n
+	dc = 2 * dc / n
+	return cost, dm, dc
 }
