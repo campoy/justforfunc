@@ -159,9 +159,9 @@ func (c *Cholesky) LogDet() float64 {
 	return det
 }
 
-// Solve finds the matrix m that solves A * m = b where A is represented
-// by the Cholesky decomposition, placing the result in m.
-func (c *Cholesky) Solve(m *Dense, b Matrix) error {
+// Solve finds the matrix x that solves A * X = B where A is represented
+// by the Cholesky decomposition, placing the result in x.
+func (c *Cholesky) Solve(x *Dense, b Matrix) error {
 	if !c.valid() {
 		panic(badCholesky)
 	}
@@ -171,21 +171,20 @@ func (c *Cholesky) Solve(m *Dense, b Matrix) error {
 		panic(ErrShape)
 	}
 
-	m.reuseAs(bm, bn)
-	if b != m {
-		m.Copy(b)
+	x.reuseAs(bm, bn)
+	if b != x {
+		x.Copy(b)
 	}
-	blas64.Trsm(blas.Left, blas.Trans, 1, c.chol.mat, m.mat)
-	blas64.Trsm(blas.Left, blas.NoTrans, 1, c.chol.mat, m.mat)
+	lapack64.Potrs(c.chol.mat, x.mat)
 	if c.cond > ConditionTolerance {
 		return Condition(c.cond)
 	}
 	return nil
 }
 
-// SolveChol finds the matrix m that solves A * m = B where A and B are represented
-// by their Cholesky decompositions a and b, placing the result in the receiver.
-func (a *Cholesky) SolveChol(m *Dense, b *Cholesky) error {
+// SolveChol finds the matrix x that solves A * X = B where A and B are represented
+// by their Cholesky decompositions a and b, placing the result in x.
+func (a *Cholesky) SolveChol(x *Dense, b *Cholesky) error {
 	if !a.valid() || !b.valid() {
 		panic(badCholesky)
 	}
@@ -194,42 +193,46 @@ func (a *Cholesky) SolveChol(m *Dense, b *Cholesky) error {
 		panic(ErrShape)
 	}
 
-	m.reuseAsZeroed(bn, bn)
-	m.Copy(b.chol.T())
-	blas64.Trsm(blas.Left, blas.Trans, 1, a.chol.mat, m.mat)
-	blas64.Trsm(blas.Left, blas.NoTrans, 1, a.chol.mat, m.mat)
-	blas64.Trmm(blas.Right, blas.NoTrans, 1, b.chol.mat, m.mat)
+	x.reuseAsZeroed(bn, bn)
+	x.Copy(b.chol.T())
+	blas64.Trsm(blas.Left, blas.Trans, 1, a.chol.mat, x.mat)
+	blas64.Trsm(blas.Left, blas.NoTrans, 1, a.chol.mat, x.mat)
+	blas64.Trmm(blas.Right, blas.NoTrans, 1, b.chol.mat, x.mat)
 	if a.cond > ConditionTolerance {
 		return Condition(a.cond)
 	}
 	return nil
 }
 
-// SolveVec finds the vector v that solves A * v = b where A is represented
-// by the Cholesky decomposition, placing the result in v.
-func (c *Cholesky) SolveVec(v, b *VecDense) error {
+// SolveVec finds the vector x that solves A * x = b where A is represented
+// by the Cholesky decomposition, placing the result in x.
+func (c *Cholesky) SolveVec(x *VecDense, b Vector) error {
 	if !c.valid() {
 		panic(badCholesky)
 	}
 	n := c.chol.mat.N
-	vn := b.Len()
-	if vn != n {
+	if br, bc := b.Dims(); br != n || bc != 1 {
 		panic(ErrShape)
 	}
-	if v != b {
-		v.checkOverlap(b.mat)
+	switch rv := b.(type) {
+	default:
+		x.reuseAs(n)
+		return c.Solve(x.asDense(), b)
+	case RawVectorer:
+		bmat := rv.RawVector()
+		if x != b {
+			x.checkOverlap(bmat)
+		}
+		x.reuseAs(n)
+		if x != b {
+			x.CopyVec(b)
+		}
+		lapack64.Potrs(c.chol.mat, x.asGeneral())
+		if c.cond > ConditionTolerance {
+			return Condition(c.cond)
+		}
+		return nil
 	}
-	v.reuseAs(n)
-	if v != b {
-		v.CopyVec(b)
-	}
-	blas64.Trsv(blas.Trans, c.chol.mat, v.mat)
-	blas64.Trsv(blas.NoTrans, c.chol.mat, v.mat)
-	if c.cond > ConditionTolerance {
-		return Condition(c.cond)
-	}
-	return nil
-
 }
 
 // RawU returns the Triangular matrix used to store the Cholesky decomposition of
@@ -418,12 +421,12 @@ func (chol *Cholesky) ExtendVecSym(a *Cholesky, v Vector) (ok bool) {
 //
 // SymRankOne updates a Cholesky factorization in O(n²) time. The Cholesky
 // factorization computation from scratch is O(n³).
-func (c *Cholesky) SymRankOne(orig *Cholesky, alpha float64, x *VecDense) (ok bool) {
+func (c *Cholesky) SymRankOne(orig *Cholesky, alpha float64, x Vector) (ok bool) {
 	if !orig.valid() {
 		panic(badCholesky)
 	}
 	n := orig.Size()
-	if x.Len() != n {
+	if r, c := x.Dims(); r != n || c != 1 {
 		panic(ErrShape)
 	}
 	if orig != c {
@@ -467,7 +470,15 @@ func (c *Cholesky) SymRankOne(orig *Cholesky, alpha float64, x *VecDense) (ok bo
 
 	work := getFloats(n, false)
 	defer putFloats(work)
-	blas64.Copy(n, x.RawVector(), blas64.Vector{1, work})
+	var xmat blas64.Vector
+	if rv, ok := x.(RawVectorer); ok {
+		xmat = rv.RawVector()
+	} else {
+		var tmp *VecDense
+		tmp.CopyVec(x)
+		xmat = tmp.RawVector()
+	}
+	blas64.Copy(n, xmat, blas64.Vector{1, work})
 
 	if alpha > 0 {
 		// Compute rank-1 update.
@@ -542,6 +553,7 @@ func (c *Cholesky) SymRankOne(orig *Cholesky, alpha float64, x *VecDense) (ok bo
 	umat := c.chol.mat
 	stride := umat.Stride
 	for i := n - 1; i >= 0; i-- {
+		work[i] = 0
 		// Apply Givens matrices to U.
 		// TODO(vladimir-ch): Use workspace to avoid modifying the
 		// receiver in case an invalid factorization is created.
