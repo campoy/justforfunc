@@ -4,7 +4,7 @@
 
 // This file must be kept in sync with index_no_bound_checks.go.
 
-//+build bounds
+// +build bounds
 
 package mat
 
@@ -44,6 +44,12 @@ func (v *VecDense) At(i, j int) float64 {
 	if j != 0 {
 		panic(ErrColAccess)
 	}
+	return v.at(i)
+}
+
+// AtVec returns the element at row i.
+// It panics if i is out of bounds.
+func (v *VecDense) AtVec(i int) float64 {
 	return v.at(i)
 }
 

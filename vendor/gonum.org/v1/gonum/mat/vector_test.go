@@ -184,10 +184,10 @@ func TestVecDenseAtSet(t *testing.T) {
 func TestVecDenseMul(t *testing.T) {
 	method := func(receiver, a, b Matrix) {
 		type mulVecer interface {
-			MulVec(a Matrix, b *VecDense)
+			MulVec(a Matrix, b Vector)
 		}
 		rd := receiver.(mulVecer)
-		rd.MulVec(a, b.(*VecDense))
+		rd.MulVec(a, b.(Vector))
 	}
 	denseComparison := func(receiver, a, b *Dense) {
 		receiver.Mul(a, b)
@@ -201,7 +201,7 @@ func TestVecDenseMul(t *testing.T) {
 		}
 		return legal
 	}
-	testTwoInput(t, "MulVec", &VecDense{}, method, denseComparison, legalTypesNotVecVec, legalSizeMulVec, 1e-14)
+	testTwoInput(t, "MulVec", &VecDense{}, method, denseComparison, legalTypesMatrixVector, legalSizeMulVec, 1e-14)
 }
 
 func TestVecDenseScale(t *testing.T) {
@@ -266,15 +266,15 @@ func TestVecDenseScale(t *testing.T) {
 	for _, alpha := range []float64{0, 1, -1, 2.3, -2.3} {
 		method := func(receiver, a Matrix) {
 			type scaleVecer interface {
-				ScaleVec(float64, *VecDense)
+				ScaleVec(float64, Vector)
 			}
 			v := receiver.(scaleVecer)
-			v.ScaleVec(alpha, a.(*VecDense))
+			v.ScaleVec(alpha, a.(Vector))
 		}
 		denseComparison := func(receiver, a *Dense) {
 			receiver.Scale(alpha, a)
 		}
-		testOneInput(t, "ScaleVec", &VecDense{}, method, denseComparison, legalTypeVec, isAnyVecDense, 0)
+		testOneInput(t, "ScaleVec", &VecDense{}, method, denseComparison, legalTypeVector, isAnyColumnVector, 0)
 	}
 }
 
@@ -282,17 +282,17 @@ func TestVecDenseAddScaled(t *testing.T) {
 	for _, alpha := range []float64{0, 1, -1, 2.3, -2.3} {
 		method := func(receiver, a, b Matrix) {
 			type addScaledVecer interface {
-				AddScaledVec(*VecDense, float64, *VecDense)
+				AddScaledVec(Vector, float64, Vector)
 			}
 			v := receiver.(addScaledVecer)
-			v.AddScaledVec(a.(*VecDense), alpha, b.(*VecDense))
+			v.AddScaledVec(a.(Vector), alpha, b.(Vector))
 		}
 		denseComparison := func(receiver, a, b *Dense) {
 			var sb Dense
 			sb.Scale(alpha, b)
 			receiver.Add(a, &sb)
 		}
-		testTwoInput(t, "AddScaledVec", &VecDense{}, method, denseComparison, legalTypesVecDenseVecDense, legalSizeSameVec, 1e-14)
+		testTwoInput(t, "AddScaledVec", &VecDense{}, method, denseComparison, legalTypesVectorVector, legalSizeSameVec, 1e-14)
 	}
 }
 

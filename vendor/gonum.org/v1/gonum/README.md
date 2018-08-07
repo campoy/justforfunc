@@ -8,6 +8,11 @@ Installation is done using `go get`.
 go get -u gonum.org/v1/gonum/...
 ```
 
+## Supported Go versions
+
+Gonum supports and tests on the [three most recent major versions of Go](https://github.com/gonum/gonum/blob/master/.travis.yml#L6-L11).
+
+
 ## Build tags
 
 The gonum packages use a variety of build tags to set non-standard build conditions.
@@ -16,9 +21,9 @@ Building gonum applications will work without knowing how to use these tags, but
 The current list of non-internal tags is as follows:
 
 - appengine — do not use assembly or unsafe
+- safe — synonym for appengine
 - bounds — use bounds checks even in internal calls
 - cblas — use CGO gonum.org/v1/netlib/blas/netlib BLAS implementation in tests (only in [mat package](https://godoc.org/gonum.org/v1/gonum/mat))
-- go1.7 — use go1.7 style sub tests and benchmarks where implemented
 - noasm — do not use assembly implementations
 - tomita — use [Tomita, Tanaka, Takahashi pivot choice](https://doi.org/10.1016%2Fj.tcs.2006.06.015) for maximimal clique calculation, otherwise use random pivot (only in [topo package](https://godoc.org/gonum.org/v1/gonum/graph/topo))
 
