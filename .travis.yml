@@ -4,7 +4,5 @@ go:
   - 1.9.x
   - 1.10.x
   - master
-env:
-  - GO111MODULE=on
 script:
-  - go test ./...
+  - GO111MODULE=on go test ./...
