@@ -1,0 +1,146 @@
+# bitbucket.org/zombiezen/gopdf v0.0.0-20150317163809-1c63dc69751b
+bitbucket.org/zombiezen/gopdf/pdf
+# cloud.google.com/go v0.15.0
+cloud.google.com/go/logging
+cloud.google.com/go/compute/metadata
+cloud.google.com/go/internal/version
+cloud.google.com/go/logging/apiv2
+cloud.google.com/go/logging/internal
+# github.com/ChimeraCoder/anaconda v1.0.0
+github.com/ChimeraCoder/anaconda
+# github.com/ChimeraCoder/tokenbucket v0.0.0-20131201223612-c5a927568de7
+github.com/ChimeraCoder/tokenbucket
+# github.com/Sirupsen/logrus v0.0.0-20170113011911-61e43dc76f7e
+github.com/Sirupsen/logrus
+# github.com/ajstarks/svgo v0.0.0-20171111115224-f9be02f22f2c
+github.com/ajstarks/svgo
+# github.com/azr/backoff v0.0.0-20160115115103-53511d3c7330
+github.com/azr/backoff
+# github.com/dustin/go-jsonpointer v0.0.0-20160814072949-ba0abeacc3dc
+github.com/dustin/go-jsonpointer
+# github.com/dustin/gojson v0.0.0-20160307161227-2e71ec9dd5ad
+github.com/dustin/gojson
+# github.com/garyburd/go-oauth v0.0.0-20171004151416-4cff9ef7b700
+github.com/garyburd/go-oauth/oauth
+# github.com/gogo/protobuf v1.1.1
+github.com/gogo/protobuf/proto
+# github.com/golang/freetype v0.0.0-20170609003504-e2365dfdc4a0
+github.com/golang/freetype
+github.com/golang/freetype/truetype
+github.com/golang/freetype/raster
+# github.com/golang/protobuf v0.0.0-20170427213220-18c9bb326172
+github.com/golang/protobuf/proto
+github.com/golang/protobuf/ptypes
+github.com/golang/protobuf/ptypes/struct
+github.com/golang/protobuf/ptypes/timestamp
+github.com/golang/protobuf/ptypes/any
+github.com/golang/protobuf/ptypes/duration
+github.com/golang/protobuf/ptypes/empty
+github.com/golang/protobuf/protoc-gen-go/descriptor
+# github.com/googleapis/gax-go v2.0.0+incompatible
+github.com/googleapis/gax-go
+# github.com/inconshreveable/mousetrap v1.0.0
+github.com/inconshreveable/mousetrap
+# github.com/jessevdk/go-flags v1.3.0
+github.com/jessevdk/go-flags
+# github.com/llgcode/draw2d v0.0.0-20171204170633-f3e35015aa4f
+github.com/llgcode/draw2d
+github.com/llgcode/draw2d/draw2dimg
+github.com/llgcode/draw2d/draw2dbase
+# github.com/pkg/errors v0.8.0
+github.com/pkg/errors
+# github.com/spf13/cobra v0.0.3
+github.com/spf13/cobra
+# github.com/spf13/pflag v1.0.2
+github.com/spf13/pflag
+# golang.org/x/image v0.0.0-20171013013600-f7e31b4ea2e3
+golang.org/x/image/math/fixed
+golang.org/x/image/tiff
+golang.org/x/image/font
+golang.org/x/image/draw
+golang.org/x/image/math/f64
+golang.org/x/image/tiff/lzw
+# golang.org/x/net v0.0.0-20170503120255-feeb485667d1
+golang.org/x/net/context
+golang.org/x/net/http2
+golang.org/x/net/trace
+golang.org/x/net/http2/hpack
+golang.org/x/net/idna
+golang.org/x/net/lex/httplex
+golang.org/x/net/internal/timeseries
+golang.org/x/net/context/ctxhttp
+# golang.org/x/oauth2 v0.0.0-20171206205713-6a2004c8907a
+golang.org/x/oauth2
+golang.org/x/oauth2/google
+golang.org/x/oauth2/internal
+golang.org/x/oauth2/jws
+golang.org/x/oauth2/jwt
+# golang.org/x/sync v0.0.0-20171101214715-fd80eb99c8f6
+golang.org/x/sync/semaphore
+# golang.org/x/sys v0.0.0-20161214190518-d75a52659825
+golang.org/x/sys/unix
+# golang.org/x/text v0.0.0-20170427093521-470f45bf29f4
+golang.org/x/text/secure/bidirule
+golang.org/x/text/unicode/norm
+golang.org/x/text/transform
+golang.org/x/text/unicode/bidi
+# gonum.org/v1/plot v0.0.0-20171127212114-feab214a240f
+gonum.org/v1/plot
+gonum.org/v1/plot/plotter
+gonum.org/v1/plot/vg/draw
+gonum.org/v1/plot/vg
+gonum.org/v1/plot/palette
+gonum.org/v1/plot/tools/bezier
+gonum.org/v1/plot/vg/vgeps
+gonum.org/v1/plot/vg/vgimg
+gonum.org/v1/plot/vg/vgpdf
+gonum.org/v1/plot/vg/vgsvg
+gonum.org/v1/plot/vg/fonts
+# google.golang.org/api v0.0.0-20171206000355-e31351a3998a
+google.golang.org/api/option
+google.golang.org/api/support/bundler
+google.golang.org/api/iterator
+google.golang.org/api/transport
+google.golang.org/api/internal
+google.golang.org/api/transport/grpc
+google.golang.org/api/transport/http
+google.golang.org/api/googleapi/transport
+# google.golang.org/appengine v0.0.0-20170222224731-3a452f9e0012
+google.golang.org/appengine
+google.golang.org/appengine/log
+google.golang.org/appengine/urlfetch
+google.golang.org/appengine/internal
+google.golang.org/appengine/internal/app_identity
+google.golang.org/appengine/internal/modules
+google.golang.org/appengine/internal/log
+google.golang.org/appengine/internal/urlfetch
+google.golang.org/appengine/internal/base
+google.golang.org/appengine/internal/datastore
+google.golang.org/appengine/internal/remote_api
+google.golang.org/appengine/socket
+google.golang.org/appengine/internal/socket
+# google.golang.org/genproto v0.0.0-20170404132009-411e09b969b1
+google.golang.org/genproto/googleapis/api/monitoredres
+google.golang.org/genproto/googleapis/logging/type
+google.golang.org/genproto/googleapis/logging/v2
+google.golang.org/genproto/googleapis/rpc/status
+google.golang.org/genproto/googleapis/api/label
+google.golang.org/genproto/googleapis/api/annotations
+google.golang.org/genproto/googleapis/api/distribution
+google.golang.org/genproto/googleapis/api/metric
+# google.golang.org/grpc v0.0.0-20170502225505-68a5d50f4517
+google.golang.org/grpc
+google.golang.org/grpc/codes
+google.golang.org/grpc/credentials
+google.golang.org/grpc/grpclb/grpc_lb_v1
+google.golang.org/grpc/grpclog
+google.golang.org/grpc/internal
+google.golang.org/grpc/keepalive
+google.golang.org/grpc/metadata
+google.golang.org/grpc/naming
+google.golang.org/grpc/peer
+google.golang.org/grpc/stats
+google.golang.org/grpc/status
+google.golang.org/grpc/tap
+google.golang.org/grpc/transport
+google.golang.org/grpc/credentials/oauth
