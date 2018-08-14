@@ -5,9 +5,5 @@ go:
   - 1.10.x
   - 1.11.x
   - master
-before_install:
-  - go get github.com/golang/dep/...
-install:
-  - dep ensure
 script:
-  - for d in $(ls -d */ | grep -v vendor | grep -v cgo); do go test ./$d/...; done
+  - go test ./...
