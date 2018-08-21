@@ -5,6 +5,7 @@ import (
 	"flag"
 	"fmt"
 	"image/color"
+	"io"
 	"log"
 	"os"
 
@@ -17,27 +18,44 @@ import (
 
 func main() {
 	iterations := flag.Int("n", 1000, "number of iterations")
+	outPath := flag.String("o", "out.png", "path to output file")
 	flag.Parse()
 
-	xs, ys, err := readData("data.txt")
-	if err != nil {
-		log.Fatalf("could not read data.txt: %v", err)
+	inPath := flag.Arg(0)
+	if inPath == "" {
+		// default to data.txt for downwards-compatibility
+		inPath = "data.txt"
 	}
 
-	err = plotData("out.png", xs, ys, *iterations)
+	file, err := os.Open(inPath)
+	if err != nil {
+		log.Fatalf("could not open file: %v", err)
+	}
+	defer file.Close()
+
+	xs, ys, err := readData(file)
+	if err != nil {
+		log.Fatalf("could not read %s: %v", inPath, err)
+	}
+
+	f, err := os.Create(*outPath)
+	if err != nil {
+		log.Fatalf("could not create %s: %v", *outPath, err)
+	}
+
+	err = plotData(f, xs, ys, *iterations)
 	if err != nil {
 		log.Fatalf("could not plot data: %v", err)
 	}
+
+	err = f.Close()
+	if err != nil {
+		log.Fatalf("could not close %s: %v", "out.png", err)
+	}
 }
 
-func readData(path string) (xs, ys []float64, err error) {
-	f, err := os.Open(path)
-	if err != nil {
-		return nil, nil, err
-	}
-	defer f.Close()
-
-	s := bufio.NewScanner(f)
+func readData(data io.Reader) (xs, ys []float64, err error) {
+	s := bufio.NewScanner(data)
 	for s.Scan() {
 		var x, y float64
 		_, err := fmt.Sscanf(s.Text(), "%f,%f", &x, &y)
@@ -59,12 +77,7 @@ type xyer struct{ xs, ys []float64 }
 func (x xyer) Len() int                    { return len(x.xs) }
 func (x xyer) XY(i int) (float64, float64) { return x.xs[i], x.ys[i] }
 
-func plotData(path string, xs, ys []float64, iterations int) error {
-	f, err := os.Create(path)
-	if err != nil {
-		return fmt.Errorf("could not create %s: %v", path, err)
-	}
-
+func plotData(out io.Writer, xs, ys []float64, iterations int) error {
 	p, err := plot.New()
 	if err != nil {
 		return fmt.Errorf("could not create plot: %v", err)
@@ -94,13 +107,11 @@ func plotData(path string, xs, ys []float64, iterations int) error {
 	if err != nil {
 		return fmt.Errorf("could not create writer: %v", err)
 	}
-	_, err = wt.WriteTo(f)
+
+	_, err = wt.WriteTo(out)
 	if err != nil {
-		return fmt.Errorf("could not write to %s: %v", path, err)
+		return fmt.Errorf("could not write: %v", err)
 	}
 
-	if err := f.Close(); err != nil {
-		return fmt.Errorf("could not close %s: %v", path, err)
-	}
 	return nil
 }
