@@ -29,7 +29,7 @@ func main() {
 
 	file, err := os.Open(inPath)
 	if err != nil {
-		log.Fatalf("could not open file: %v", err)
+		log.Fatalf("could not open file %s: %v", inPath, err)
 	}
 	defer file.Close()
 
@@ -50,7 +50,7 @@ func main() {
 
 	err = f.Close()
 	if err != nil {
-		log.Fatalf("could not close %s: %v", "out.png", err)
+		log.Fatalf("could not close %s: %v", *outPath, err)
 	}
 }
 
