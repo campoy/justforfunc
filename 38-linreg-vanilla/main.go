@@ -27,28 +27,28 @@ func main() {
 		inPath = "data.txt"
 	}
 
-	file, err := os.Open(inPath)
+	inFile, err := os.Open(inPath)
 	if err != nil {
 		log.Fatalf("could not open file %s: %v", inPath, err)
 	}
-	defer file.Close()
+	defer inFile.Close()
 
-	xs, ys, err := readData(file)
+	xs, ys, err := readData(inFile)
 	if err != nil {
 		log.Fatalf("could not read %s: %v", inPath, err)
 	}
 
-	f, err := os.Create(*outPath)
+	outFile, err := os.Create(*outPath)
 	if err != nil {
 		log.Fatalf("could not create %s: %v", *outPath, err)
 	}
 
-	err = plotData(f, xs, ys, *iterations)
+	err = plotData(outFile, xs, ys, *iterations)
 	if err != nil {
 		log.Fatalf("could not plot data: %v", err)
 	}
 
-	err = f.Close()
+	err = outFile.Close()
 	if err != nil {
 		log.Fatalf("could not close %s: %v", *outPath, err)
 	}
