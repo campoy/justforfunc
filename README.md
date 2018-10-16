@@ -44,6 +44,10 @@ series [#justforfunc](http://youtube.com/c/justforfunc).
 - 36: Versions, build constraints, and ldflags ([video](https://youtu.be/-XSlev-d7UY) and [source code](36-versions))
 - 37: sync.Pool from the pool ([video](https://youtu.be/rfXSrgIGrKo) and [source code](37-sync-pool))
 - 38: Linear Regression with Gradient Descent (ML4G #2) ([video](https://youtu.be/ZPd_fKyrX48) and [source code](38-linreg-vanilla))
+- 39: code reviews are back!
+ ([video](https://youtu.be/ijoM44hksmY) and [source code](https://github.com/campoy/justforfunc/pull/79))
+- 40: cvsql - serving CSV with SQL
+ ([video](https://youtu.be/bcRDXAraprk) and [source code](40-csvlq))
 
 ### Have an idea?
 

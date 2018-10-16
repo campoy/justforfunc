@@ -20,7 +20,7 @@ import (
 	"net"
 	"os/exec"
 
-	"github.com/Sirupsen/logrus"
+	"github.com/sirupsen/logrus"
 	pb "github.com/campoy/justforfunc/12-say-grpc/api"
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
