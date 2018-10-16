@@ -1,6 +1,6 @@
 # bitbucket.org/zombiezen/gopdf v0.0.0-20150317163809-1c63dc69751b
 bitbucket.org/zombiezen/gopdf/pdf
-# cloud.google.com/go v0.26.0
+# cloud.google.com/go v0.30.0
 cloud.google.com/go/logging
 cloud.google.com/go/compute/metadata
 cloud.google.com/go/internal/version
@@ -10,8 +10,6 @@ cloud.google.com/go/logging/internal
 github.com/ChimeraCoder/anaconda
 # github.com/ChimeraCoder/tokenbucket v0.0.0-20131201223612-c5a927568de7
 github.com/ChimeraCoder/tokenbucket
-# github.com/Sirupsen/logrus v0.0.0-20170113011911-61e43dc76f7e
-github.com/Sirupsen/logrus
 # github.com/ajstarks/svgo v0.0.0-20171111115224-f9be02f22f2c
 github.com/ajstarks/svgo
 # github.com/azr/backoff v0.0.0-20160115115103-53511d3c7330
@@ -72,6 +70,21 @@ github.com/spf13/cast
 github.com/spf13/cobra
 # github.com/spf13/pflag v1.0.2
 github.com/spf13/pflag
+# go.opencensus.io v0.17.0
+go.opencensus.io/plugin/ocgrpc
+go.opencensus.io/plugin/ochttp
+go.opencensus.io/stats
+go.opencensus.io/stats/view
+go.opencensus.io/tag
+go.opencensus.io/trace
+go.opencensus.io/trace/propagation
+go.opencensus.io/plugin/ochttp/propagation/b3
+go.opencensus.io/stats/internal
+go.opencensus.io/internal/tagencoding
+go.opencensus.io/internal
+go.opencensus.io/trace/internal
+go.opencensus.io/trace/tracestate
+go.opencensus.io
 # golang.org/x/crypto v0.0.0-20180904163835-0709b304e793
 golang.org/x/crypto/ssh/terminal
 # golang.org/x/image v0.0.0-20171013013600-f7e31b4ea2e3
@@ -98,7 +111,7 @@ golang.org/x/oauth2/jws
 golang.org/x/oauth2/jwt
 # golang.org/x/sync v0.0.0-20180314180146-1d60e4601c6f
 golang.org/x/sync/semaphore
-# golang.org/x/sys v0.0.0-20180905080454-ebe1bf3edb33
+# golang.org/x/sys v0.0.0-20180909124046-d0be0721c37e
 golang.org/x/sys/unix
 golang.org/x/sys/windows
 # golang.org/x/text v0.3.0
@@ -118,7 +131,7 @@ gonum.org/v1/plot/vg/vgimg
 gonum.org/v1/plot/vg/vgpdf
 gonum.org/v1/plot/vg/vgsvg
 gonum.org/v1/plot/vg/fonts
-# google.golang.org/api v0.0.0-20171206000355-e31351a3998a
+# google.golang.org/api v0.0.0-20181016191922-cc9bd73d51b4
 google.golang.org/api/option
 google.golang.org/api/support/bundler
 google.golang.org/api/iterator
@@ -127,6 +140,7 @@ google.golang.org/api/internal
 google.golang.org/api/transport/grpc
 google.golang.org/api/transport/http
 google.golang.org/api/googleapi/transport
+google.golang.org/api/transport/http/internal/propagation
 # google.golang.org/appengine v1.1.0
 google.golang.org/appengine
 google.golang.org/appengine/log
@@ -141,7 +155,7 @@ google.golang.org/appengine/internal/datastore
 google.golang.org/appengine/internal/remote_api
 google.golang.org/appengine/socket
 google.golang.org/appengine/internal/socket
-# google.golang.org/genproto v0.0.0-20180817151627-c66870c02cf8
+# google.golang.org/genproto v0.0.0-20180831171423-11092d34479b
 google.golang.org/genproto/googleapis/api/monitoredres
 google.golang.org/genproto/googleapis/logging/type
 google.golang.org/genproto/googleapis/logging/v2

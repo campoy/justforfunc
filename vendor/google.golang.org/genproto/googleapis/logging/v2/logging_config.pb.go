@@ -48,8 +48,8 @@ var LogSink_VersionFormat_name = map[int32]string{
 }
 var LogSink_VersionFormat_value = map[string]int32{
 	"VERSION_FORMAT_UNSPECIFIED": 0,
-	"V2": 1,
-	"V1": 2,
+	"V2":                         1,
+	"V1":                         2,
 }
 
 func (x LogSink_VersionFormat) String() string {
