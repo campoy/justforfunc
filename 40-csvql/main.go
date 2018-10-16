@@ -9,6 +9,9 @@ import (
 
 func main() {
 	e := sql.NewDefault()
+
+	e.AddDatabase(&database{})
+
 	if err := e.Init(); err != nil {
 		logrus.Fatalf("could not initialize server: %v", err)
 	}
