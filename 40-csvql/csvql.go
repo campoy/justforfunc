@@ -1,7 +1,9 @@
 package csvql
 
 import (
+	"encoding/csv"
 	"io/ioutil"
+	"os"
 	"path/filepath"
 	"strings"
 
@@ -25,7 +27,11 @@ func NewDatabase(path string) (*Database, error) {
 		if fi.IsDir() || filepath.Ext(name) != ".csv" {
 			continue
 		}
-		tables[strings.TrimSuffix(name, ".csv")] = &table{}
+		t, err := newTable(filepath.Join(path, name))
+		if err != nil {
+			return nil, errors.Wrapf(err, "could not create table from %s", name)
+		}
+		tables[strings.TrimSuffix(name, ".csv")] = t
 	}
 
 	return &Database{tables}, nil
@@ -37,6 +43,31 @@ func (d *Database) Tables() map[string]sql.Table { return d.tables }
 type table struct {
 	name   string
 	schema sql.Schema
+}
+
+func newTable(path string) (sql.Table, error) {
+	f, err := os.Open(path)
+	if err != nil {
+		return nil, errors.Wrapf(err, "could not read %s", path)
+	}
+	defer f.Close()
+
+	r := csv.NewReader(f)
+	headers, err := r.Read()
+	if err != nil {
+		return nil, errors.Wrapf(err, "could not read headers in %s", path)
+	}
+
+	var schema []*sql.Column
+	for _, header := range headers {
+		schema = append(schema, &sql.Column{
+			Name: header,
+			Type: sql.Text,
+		})
+	}
+
+	name := strings.TrimSuffix(filepath.Base(path), ".csv")
+	return &table{name: name, schema: schema}, nil
 }
 
 func (t *table) Name() string       { return t.name }
