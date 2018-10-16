@@ -7,7 +7,7 @@ import (
 	"github.com/sirupsen/logrus"
 	sql "gopkg.in/src-d/go-mysql-server.v0"
 	"gopkg.in/src-d/go-mysql-server.v0/server"
-	"gopkg.in/src-d/go-vitess.v0/mysql"
+	"gopkg.in/src-d/go-vitess.v1/mysql"
 )
 
 func main() {
