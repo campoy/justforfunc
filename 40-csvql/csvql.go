@@ -2,6 +2,7 @@ package csvql
 
 import (
 	"encoding/csv"
+	"io"
 	"io/ioutil"
 	"os"
 	"path/filepath"
@@ -73,9 +74,27 @@ func newTable(path string) (sql.Table, error) {
 func (t *table) Name() string       { return t.name }
 func (t *table) String() string     { return t.name }
 func (t *table) Schema() sql.Schema { return t.schema }
-func (t *table) Partitions(ctx *sql.Context) (sql.PartitionIter, error) {
-	return nil, errors.New("Partitions not implemented")
+
+type partitionIter struct{ done bool }
+
+func (p *partitionIter) Close() error { return nil }
+
+type partition struct{}
+
+func (partition) Key() []byte { return []byte{'@'} }
+
+func (p *partitionIter) Next() (sql.Partition, error) {
+	if p.done {
+		return nil, io.EOF
+	}
+	p.done = true
+	return &partition{}, nil
 }
+
+func (t *table) Partitions(ctx *sql.Context) (sql.PartitionIter, error) {
+	return &partitionIter{}, nil
+}
+
 func (t *table) PartitionRows(ctx *sql.Context, p sql.Partition) (sql.RowIter, error) {
 	return nil, errors.New("Partitions not implemented")
 }
