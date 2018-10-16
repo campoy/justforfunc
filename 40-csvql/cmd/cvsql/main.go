@@ -1,6 +1,9 @@
 package main
 
 import (
+	"os"
+
+	csvql "github.com/campoy/justforfunc/40-csvql"
 	"github.com/sirupsen/logrus"
 	sql "gopkg.in/src-d/go-mysql-server.v0"
 	"gopkg.in/src-d/go-mysql-server.v0/server"
@@ -8,9 +11,16 @@ import (
 )
 
 func main() {
+	dir := "."
+	if len(os.Args) >= 2 {
+		dir = os.Args[1]
+	}
 	e := sql.NewDefault()
-
-	e.AddDatabase(&database{})
+	d, err := csvql.NewDatabase(dir)
+	if err != nil {
+		logrus.Fatalf("could not create database: %v", err)
+	}
+	e.AddDatabase(d)
 
 	if err := e.Init(); err != nil {
 		logrus.Fatalf("could not initialize server: %v", err)
