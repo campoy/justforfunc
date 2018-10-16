@@ -44,6 +44,7 @@ func (d *Database) Tables() map[string]sql.Table { return d.tables }
 type table struct {
 	name   string
 	schema sql.Schema
+	path   string
 }
 
 func newTable(path string) (sql.Table, error) {
@@ -62,13 +63,14 @@ func newTable(path string) (sql.Table, error) {
 	var schema []*sql.Column
 	for _, header := range headers {
 		schema = append(schema, &sql.Column{
-			Name: header,
-			Type: sql.Text,
+			Name:   header,
+			Type:   sql.Text,
+			Source: path,
 		})
 	}
 
 	name := strings.TrimSuffix(filepath.Base(path), ".csv")
-	return &table{name: name, schema: schema}, nil
+	return &table{name: name, schema: schema, path: path}, nil
 }
 
 func (t *table) Name() string       { return t.name }
@@ -95,6 +97,32 @@ func (t *table) Partitions(ctx *sql.Context) (sql.PartitionIter, error) {
 	return &partitionIter{}, nil
 }
 
+type rowIter struct {
+	*csv.Reader
+	io.Closer
+}
+
+func (r *rowIter) Next() (sql.Row, error) {
+	cols, err := r.Read()
+	if err == io.EOF {
+		return nil, err
+	} else if err != nil {
+		return nil, errors.Wrap(err, "could not read row")
+	}
+	row := make(sql.Row, len(cols))
+	for i, col := range cols {
+		row[i] = col
+	}
+	return row, err
+}
+
 func (t *table) PartitionRows(ctx *sql.Context, p sql.Partition) (sql.RowIter, error) {
-	return nil, errors.New("Partitions not implemented")
+	f, err := os.Open(t.path)
+	if err != nil {
+		return nil, errors.Wrapf(err, "could not open %s", t.path)
+	}
+
+	r := csv.NewReader(f)
+	r.Read()
+	return &rowIter{r, f}, nil
 }
