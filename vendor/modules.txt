@@ -1,6 +1,6 @@
 # bitbucket.org/zombiezen/gopdf v0.0.0-20150317163809-1c63dc69751b
 bitbucket.org/zombiezen/gopdf/pdf
-# cloud.google.com/go v0.15.0
+# cloud.google.com/go v0.30.0
 cloud.google.com/go/logging
 cloud.google.com/go/compute/metadata
 cloud.google.com/go/internal/version
@@ -10,8 +10,6 @@ cloud.google.com/go/logging/internal
 github.com/ChimeraCoder/anaconda
 # github.com/ChimeraCoder/tokenbucket v0.0.0-20131201223612-c5a927568de7
 github.com/ChimeraCoder/tokenbucket
-# github.com/Sirupsen/logrus v0.0.0-20170113011911-61e43dc76f7e
-github.com/Sirupsen/logrus
 # github.com/ajstarks/svgo v0.0.0-20171111115224-f9be02f22f2c
 github.com/ajstarks/svgo
 # github.com/azr/backoff v0.0.0-20160115115103-53511d3c7330
@@ -28,7 +26,9 @@ github.com/gogo/protobuf/proto
 github.com/golang/freetype
 github.com/golang/freetype/truetype
 github.com/golang/freetype/raster
-# github.com/golang/protobuf v0.0.0-20170427213220-18c9bb326172
+# github.com/golang/glog v0.0.0-20160126235308-23def4e6c14b
+github.com/golang/glog
+# github.com/golang/protobuf v1.2.0
 github.com/golang/protobuf/proto
 github.com/golang/protobuf/ptypes
 github.com/golang/protobuf/ptypes/struct
@@ -49,16 +49,44 @@ github.com/googleapis/gax-go
 github.com/inconshreveable/mousetrap
 # github.com/jessevdk/go-flags v1.3.0
 github.com/jessevdk/go-flags
+# github.com/konsorten/go-windows-terminal-sequences v0.0.0-20180402223658-b729f2633dfe
+github.com/konsorten/go-windows-terminal-sequences
 # github.com/llgcode/draw2d v0.0.0-20171204170633-f3e35015aa4f
 github.com/llgcode/draw2d
 github.com/llgcode/draw2d/draw2dimg
 github.com/llgcode/draw2d/draw2dbase
+# github.com/mitchellh/hashstructure v1.0.0
+github.com/mitchellh/hashstructure
+# github.com/opentracing/opentracing-go v1.0.2
+github.com/opentracing/opentracing-go
+github.com/opentracing/opentracing-go/log
 # github.com/pkg/errors v0.8.0
 github.com/pkg/errors
+# github.com/sirupsen/logrus v1.1.1
+github.com/sirupsen/logrus
+# github.com/spf13/cast v1.2.0
+github.com/spf13/cast
 # github.com/spf13/cobra v0.0.3
 github.com/spf13/cobra
 # github.com/spf13/pflag v1.0.2
 github.com/spf13/pflag
+# go.opencensus.io v0.17.0
+go.opencensus.io/plugin/ocgrpc
+go.opencensus.io/plugin/ochttp
+go.opencensus.io/stats
+go.opencensus.io/stats/view
+go.opencensus.io/tag
+go.opencensus.io/trace
+go.opencensus.io/trace/propagation
+go.opencensus.io/plugin/ochttp/propagation/b3
+go.opencensus.io/stats/internal
+go.opencensus.io/internal/tagencoding
+go.opencensus.io/internal
+go.opencensus.io/trace/internal
+go.opencensus.io/trace/tracestate
+go.opencensus.io
+# golang.org/x/crypto v0.0.0-20180904163835-0709b304e793
+golang.org/x/crypto/ssh/terminal
 # golang.org/x/image v0.0.0-20171013013600-f7e31b4ea2e3
 golang.org/x/image/math/fixed
 golang.org/x/image/tiff
@@ -66,30 +94,31 @@ golang.org/x/image/font
 golang.org/x/image/draw
 golang.org/x/image/math/f64
 golang.org/x/image/tiff/lzw
-# golang.org/x/net v0.0.0-20170503120255-feeb485667d1
+# golang.org/x/net v0.0.0-20180926154720-4dfa2610cdf3
 golang.org/x/net/context
-golang.org/x/net/http2
 golang.org/x/net/trace
-golang.org/x/net/http2/hpack
-golang.org/x/net/idna
-golang.org/x/net/lex/httplex
 golang.org/x/net/internal/timeseries
+golang.org/x/net/http2
+golang.org/x/net/http2/hpack
 golang.org/x/net/context/ctxhttp
-# golang.org/x/oauth2 v0.0.0-20171206205713-6a2004c8907a
+golang.org/x/net/http/httpguts
+golang.org/x/net/idna
+# golang.org/x/oauth2 v0.0.0-20180821212333-d2e6202438be
 golang.org/x/oauth2
 golang.org/x/oauth2/google
 golang.org/x/oauth2/internal
 golang.org/x/oauth2/jws
 golang.org/x/oauth2/jwt
-# golang.org/x/sync v0.0.0-20171101214715-fd80eb99c8f6
+# golang.org/x/sync v0.0.0-20180314180146-1d60e4601c6f
 golang.org/x/sync/semaphore
-# golang.org/x/sys v0.0.0-20161214190518-d75a52659825
+# golang.org/x/sys v0.0.0-20180909124046-d0be0721c37e
 golang.org/x/sys/unix
-# golang.org/x/text v0.0.0-20170427093521-470f45bf29f4
+golang.org/x/sys/windows
+# golang.org/x/text v0.3.0
 golang.org/x/text/secure/bidirule
+golang.org/x/text/unicode/bidi
 golang.org/x/text/unicode/norm
 golang.org/x/text/transform
-golang.org/x/text/unicode/bidi
 # gonum.org/v1/plot v0.0.0-20171127212114-feab214a240f
 gonum.org/v1/plot
 gonum.org/v1/plot/plotter
@@ -102,7 +131,7 @@ gonum.org/v1/plot/vg/vgimg
 gonum.org/v1/plot/vg/vgpdf
 gonum.org/v1/plot/vg/vgsvg
 gonum.org/v1/plot/vg/fonts
-# google.golang.org/api v0.0.0-20171206000355-e31351a3998a
+# google.golang.org/api v0.0.0-20181016191922-cc9bd73d51b4
 google.golang.org/api/option
 google.golang.org/api/support/bundler
 google.golang.org/api/iterator
@@ -111,7 +140,8 @@ google.golang.org/api/internal
 google.golang.org/api/transport/grpc
 google.golang.org/api/transport/http
 google.golang.org/api/googleapi/transport
-# google.golang.org/appengine v0.0.0-20170222224731-3a452f9e0012
+google.golang.org/api/transport/http/internal/propagation
+# google.golang.org/appengine v1.1.0
 google.golang.org/appengine
 google.golang.org/appengine/log
 google.golang.org/appengine/urlfetch
@@ -125,7 +155,7 @@ google.golang.org/appengine/internal/datastore
 google.golang.org/appengine/internal/remote_api
 google.golang.org/appengine/socket
 google.golang.org/appengine/internal/socket
-# google.golang.org/genproto v0.0.0-20170404132009-411e09b969b1
+# google.golang.org/genproto v0.0.0-20180831171423-11092d34479b
 google.golang.org/genproto/googleapis/api/monitoredres
 google.golang.org/genproto/googleapis/logging/type
 google.golang.org/genproto/googleapis/logging/v2
@@ -134,19 +164,70 @@ google.golang.org/genproto/googleapis/api/label
 google.golang.org/genproto/googleapis/api/annotations
 google.golang.org/genproto/googleapis/api/distribution
 google.golang.org/genproto/googleapis/api/metric
-# google.golang.org/grpc v0.0.0-20170502225505-68a5d50f4517
+google.golang.org/genproto/protobuf/field_mask
+# google.golang.org/grpc v1.15.0
 google.golang.org/grpc
+google.golang.org/grpc/balancer
+google.golang.org/grpc/balancer/roundrobin
 google.golang.org/grpc/codes
+google.golang.org/grpc/connectivity
 google.golang.org/grpc/credentials
-google.golang.org/grpc/grpclb/grpc_lb_v1
+google.golang.org/grpc/encoding
+google.golang.org/grpc/encoding/proto
 google.golang.org/grpc/grpclog
 google.golang.org/grpc/internal
+google.golang.org/grpc/internal/backoff
+google.golang.org/grpc/internal/channelz
+google.golang.org/grpc/internal/envconfig
+google.golang.org/grpc/internal/grpcrand
+google.golang.org/grpc/internal/transport
 google.golang.org/grpc/keepalive
 google.golang.org/grpc/metadata
 google.golang.org/grpc/naming
 google.golang.org/grpc/peer
+google.golang.org/grpc/resolver
+google.golang.org/grpc/resolver/dns
+google.golang.org/grpc/resolver/passthrough
 google.golang.org/grpc/stats
 google.golang.org/grpc/status
 google.golang.org/grpc/tap
-google.golang.org/grpc/transport
+google.golang.org/grpc/balancer/base
 google.golang.org/grpc/credentials/oauth
+# gopkg.in/src-d/go-errors.v1 v1.0.0
+gopkg.in/src-d/go-errors.v1
+# gopkg.in/src-d/go-mysql-server.v0 v0.0.0-20181016135343-cdc6c8ccdc69
+gopkg.in/src-d/go-mysql-server.v0/sql
+gopkg.in/src-d/go-mysql-server.v0
+gopkg.in/src-d/go-mysql-server.v0/server
+gopkg.in/src-d/go-mysql-server.v0/sql/analyzer
+gopkg.in/src-d/go-mysql-server.v0/sql/expression/function
+gopkg.in/src-d/go-mysql-server.v0/sql/parse
+gopkg.in/src-d/go-mysql-server.v0/sql/plan
+gopkg.in/src-d/go-mysql-server.v0/mem
+gopkg.in/src-d/go-mysql-server.v0/sql/expression
+gopkg.in/src-d/go-mysql-server.v0/sql/expression/function/aggregation
+gopkg.in/src-d/go-mysql-server.v0/internal/regex
+# gopkg.in/src-d/go-vitess.v1 v1.1.0
+gopkg.in/src-d/go-vitess.v1/mysql
+gopkg.in/src-d/go-vitess.v1/sqltypes
+gopkg.in/src-d/go-vitess.v1/vt/proto/query
+gopkg.in/src-d/go-vitess.v1/bucketpool
+gopkg.in/src-d/go-vitess.v1/netutil
+gopkg.in/src-d/go-vitess.v1/stats
+gopkg.in/src-d/go-vitess.v1/tb
+gopkg.in/src-d/go-vitess.v1/vt/log
+gopkg.in/src-d/go-vitess.v1/vt/proto/binlogdata
+gopkg.in/src-d/go-vitess.v1/vt/proto/replicationdata
+gopkg.in/src-d/go-vitess.v1/vt/proto/vtrpc
+gopkg.in/src-d/go-vitess.v1/vt/sqlparser
+gopkg.in/src-d/go-vitess.v1/vt/vterrors
+gopkg.in/src-d/go-vitess.v1/vt/vttls
+gopkg.in/src-d/go-vitess.v1/bytes2
+gopkg.in/src-d/go-vitess.v1/hack
+gopkg.in/src-d/go-vitess.v1/vt/proto/vtgate
+gopkg.in/src-d/go-vitess.v1/vt/proto/topodata
+gopkg.in/src-d/go-vitess.v1/sync2
+gopkg.in/src-d/go-vitess.v1/vt/logutil
+gopkg.in/src-d/go-vitess.v1/cache
+gopkg.in/src-d/go-vitess.v1/event
+gopkg.in/src-d/go-vitess.v1/vt/proto/logutil

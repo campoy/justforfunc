@@ -19,7 +19,7 @@ import (
 	"io/ioutil"
 	"net"
 
-	"github.com/Sirupsen/logrus"
+	"github.com/sirupsen/logrus"
 	pb "github.com/campoy/justforfunc/13-flite-cgo/api"
 	"github.com/campoy/justforfunc/13-flite-cgo/flite"
 	"golang.org/x/net/context"

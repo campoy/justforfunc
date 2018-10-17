@@ -18,7 +18,7 @@ import (
 	"os"
 
 	"github.com/ChimeraCoder/anaconda"
-	"github.com/Sirupsen/logrus"
+	"github.com/sirupsen/logrus"
 )
 
 var (
