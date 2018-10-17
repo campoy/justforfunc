@@ -7,11 +7,11 @@ import "fmt"
 // LinearRegression runs the requested number of iterations of gradient
 // descent and returns the latest approximated coefficients.
 func LinearRegression(xs, ys []float64, iterations int, alpha float64) (m, c float64) {
-	for i := 0; i < iterations; i++ {
+	for i := 1; i < iterations+1; i++ {
 		cost, dm, dc := Gradient(xs, ys, m, c)
 		m += -dm * alpha
 		c += -dc * alpha
-		if (10 * i % iterations) == 0 {
+		if i%(iterations/10) == 0 {
 			fmt.Printf("cost(%.2f, %.2f) = %.2f\n", m, c, cost)
 		}
 	}
