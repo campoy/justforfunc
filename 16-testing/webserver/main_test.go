@@ -15,10 +15,10 @@ package main
 
 import (
 	"bytes"
-	"fmt"
 	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
+	"reflect"
 	"strconv"
 	"testing"
 )
@@ -79,29 +79,22 @@ func TestDoubleHandler(t *testing.T) {
 }
 
 func TestRouting(t *testing.T) {
-	srv := httptest.NewServer(handler())
-	defer srv.Close()
-
-	res, err := http.Get(fmt.Sprintf("%s/double?v=2", srv.URL))
-	if err != nil {
-		t.Fatalf("could not send GET request: %v", err)
-	}
-	defer res.Body.Close()
-
-	if res.StatusCode != http.StatusOK {
-		t.Errorf("expected status OK; got %v", res.Status)
+	tt := []struct {
+		method string
+		path   string
+		handle http.HandlerFunc
+	}{
+		{method: "GET", path: "/double", handle: http.HandlerFunc(doubleHandler)},
+		{method: "GET", path: "/other", handle: http.NotFound},
 	}
 
-	b, err := ioutil.ReadAll(res.Body)
-	if err != nil {
-		t.Fatalf("could not read response: %v", err)
-	}
-
-	d, err := strconv.Atoi(string(bytes.TrimSpace(b)))
-	if err != nil {
-		t.Fatalf("expected an integer; got %s", b)
-	}
-	if d != 4 {
-		t.Fatalf("expected double to be 4; got %v", d)
+	h := handler()
+	for _, tc := range tt {
+		t.Run(tc.method+tc.path, func(t *testing.T) {
+			handle, _ := h.Handler(httptest.NewRequest(tc.method, tc.path, nil))
+			if reflect.ValueOf(tc.handle) != reflect.ValueOf(handle) {
+				t.Fatalf("expected handler to be %#v; got %#v", tc.handle, handle)
+			}
+		})
 	}
 }
