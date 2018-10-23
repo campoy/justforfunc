@@ -49,7 +49,7 @@ series [#justforfunc](http://youtube.com/c/justforfunc).
 - 39: code reviews are back!
  ([video](https://youtu.be/ijoM44hksmY) and [source code](https://github.com/campoy/justforfunc/pull/79))
 - 40: cvsql - serving CSV with SQL
- ([video](https://youtu.be/bcRDXAraprk) and [source code](40-csvlq))
+ ([video](https://youtu.be/bcRDXAraprk) and [source code](40-csvql))
 
 ### Have an idea?
 
