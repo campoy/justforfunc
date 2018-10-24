@@ -1,0 +1,11 @@
+test_task:
+  container:
+    matrix:
+      image: golang:1.9
+      image: golang:1.10
+      image: golang:1.11-rc
+  env:
+    CIRRUS_WORKING_DIR: /go/src/github.com/campoy/justforfunc
+    GO111MODULE: on
+  get_script: go get -t -v ./...
+  test_script: go test ./...
