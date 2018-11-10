@@ -60,17 +60,18 @@ func newTable(path string) (sql.Table, error) {
 		return nil, errors.Wrapf(err, "could not read headers in %s", path)
 	}
 
+	tableName := strings.TrimSuffix(filepath.Base(path), ".csv")
+
 	var schema []*sql.Column
 	for _, header := range headers {
 		schema = append(schema, &sql.Column{
 			Name:   header,
 			Type:   sql.Text,
-			Source: path,
+			Source: tableName,
 		})
 	}
 
-	name := strings.TrimSuffix(filepath.Base(path), ".csv")
-	return &table{name: name, schema: schema, path: path}, nil
+	return &table{name: tableName, schema: schema, path: path}, nil
 }
 
 func (t *table) Name() string       { return t.name }
