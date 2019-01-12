@@ -12,7 +12,7 @@
 # limitations under the License.
 
 build:
-	GOOS=linux go build -o app
+	GOOS=linux go build -a -tags netgo -ldflags '-w' -o app
 	docker build -t gcr.io/justforfunc-prep/say .
 	rm -f app
 
