@@ -12,7 +12,7 @@
 # limitations under the License.
 
 build:
-	CGO_ENABLED=0 GOOS=linux go build -o app
+	CGO_ENABLED=0 GOOS=linux go build -a -o app
 	docker build -t gcr.io/justforfunc-prep/say .
 	rm -f app
 
