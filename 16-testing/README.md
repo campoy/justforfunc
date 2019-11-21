@@ -18,4 +18,4 @@ References:
 - testing: https://golang.org/pkg/testing/
 - net/http/httptest: https://golang.org/pkg/net/http/httptest
 - Testable Examples in Go: https://blog.golang.org/examples
-- source code: https://github.com/campoy/justforfunc/tree/master/16-logpipe
+- source code: https://github.com/campoy/justforfunc/tree/master/16-testing
